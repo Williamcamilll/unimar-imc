@@ -37,17 +37,28 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .container {
   width: 100%;
   max-width: 900px;
   background-color: var(--cor-card);
-  padding: 2rem 2.5rem;
+  padding: 2rem;
   border-radius: var(--radius);
-  box-shadow: 0 6px 20px var(--sombra);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease-in-out;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  animation: flutuar 6s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 header {
@@ -92,6 +103,7 @@ h1 {
 .input-group select:focus {
   border-color: var(--cor-secundaria);
   outline: none;
+  box-shadow: 0 0 8px rgba(0, 85, 153, 0.2);
 }
 
 button {
@@ -103,12 +115,13 @@ button {
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: background 0.3s ease;
-  align-self: flex-start;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 button:hover {
   background-color: var(--cor-secundaria);
+  transform: scale(1.02);
 }
 
 #resultado {
@@ -116,6 +129,8 @@ button:hover {
   font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
+  padding: 1rem;
+  border-radius: var(--radius);
 }
 
 section {
@@ -156,15 +171,21 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 #lista-lembretes button {
   background-color: transparent;
-  color: var(--cor-obesidade);
+  color: var(--imc-obesidade);
   border: none;
   font-weight: bold;
   cursor: pointer;
   font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+#lista-lembretes button:hover {
+  color: #000;
 }
 
 .imc-baixo { color: var(--imc-baixo); }
@@ -172,9 +193,9 @@ th {
 .imc-sobrepeso { color: var(--imc-sobrepeso); }
 .imc-obesidade { color: var(--imc-obesidade); }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .container {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   h1 {
@@ -189,6 +210,25 @@ th {
   }
 
   button {
-    padding: 0.6rem;
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .input-group input,
+  .input-group select {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
   }
 }
