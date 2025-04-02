@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMC | Unimar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1 data-i18n="titulo">Calculadora de IMC</h1>
+      <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
+
+      <div class="input-group">
+        <label for="idioma">Idioma:</label>
+        <select id="idioma">
+          <option value="pt">Português</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="unidade">Unidade:</label>
+        <select id="unidade">
+          <option value="metric">Métrico (kg/cm)</option>
+          <option value="imperial">Imperial (lb/in)</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="perfil-usuario">
+      <h2 data-i18n="perfil">Perfil do Usuário</h2>
+      <div class="input-group">
+        <label for="nome" data-i18n="nome">Nome:</label>
+        <input type="text" id="nome" />
+      </div>
+      <div class="input-group">
+        <label for="idade" data-i18n="idade">Idade:</label>
+        <input type="number" id="idade" />
+      </div>
+      <div class="input-group">
+        <label for="sexo" data-i18n="sexo">Sexo:</label>
+        <select id="sexo">
+          <option value="">Selecione</option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
+    </section>
+
+    <form id="form-imc">
+      <div class="input-group">
+        <label for="peso" id="label-peso" data-i18n="peso">Peso (kg):</label>
+        <input type="number" id="peso" required />
+      </div>
+      <div class="input-group">
+        <label for="altura" id="label-altura" data-i18n="altura">Altura (cm):</label>
+        <input type="number" id="altura" required />
+      </div>
+      <div class="input-group">
+        <label for="meta-peso" data-i18n="meta">Meta de Peso (kg):</label>
+        <input type="number" id="meta-peso" />
+      </div>
+      <button type="submit" data-i18n="calcular">Calcular IMC</button>
+    </form>
+
+    <div id="resultado" class="resultado"></div>
+
+    <section class="recomendacoes">
+      <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
+      <div id="dieta"></div>
+      <div id="exercicio"></div>
+    </section>
+
+    <section class="faixa-imc">
+      <h2 data-i18n="faixas">Faixas de IMC</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>IMC</th>
+            <th data-i18n="classificacao">Classificação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Menor que 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
+          <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
+          <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
+          <tr><td>30.0 ou mais</td><td data-i18n="obesidade">Obesidade</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="historico-section">
+      <h2 data-i18n="historico">Histórico de Cálculos</h2>
+      <table id="historico">
+        <thead>
+          <tr>
+            <th data-i18n="data">Data</th>
+            <th data-i18n="peso">Peso (kg)</th>
+            <th data-i18n="altura">Altura (cm)</th>
+            <th>IMC</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
+    </section>
+
+    <section class="lembretes-section">
+      <h2 data-i18n="lembretes">Lembretes Personalizados</h2>
+      <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
+      <input type="text" id="lembrete" />
+      <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
+      <ul id="lista-lembretes"></ul>
+    </section>
+  </main>
+  <script src="scripts.js"></script>
+</body>
+</html>
