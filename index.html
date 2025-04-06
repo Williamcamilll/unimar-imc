@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de IMC</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de IMC | Unimar</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
+  <div class="container">
     <header>
       <h1 data-i18n="titulo">Calculadora de IMC</h1>
       <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
 
+      <!-- Seção de seleção de idioma -->
       <div class="input-group">
-        <label for="idioma">Idioma:</label>
-        <select id="idioma" aria-label="Selecionar idioma">
+        <label for="idioma" data-i18n="idioma">Idioma:</label>
+        <select id="idioma">
           <option value="pt">Português</option>
           <option value="en">English</option>
           <option value="es">Español</option>
@@ -23,8 +23,9 @@
         </select>
       </div>
 
+      <!-- Seção de unidades de medida -->
       <div class="input-group">
-        <label for="unidade">Unidade:</label>
+        <label for="unidade" data-i18n="unidade">Unidade:</label>
         <select id="unidade">
           <option value="metric">Métrico (kg/cm)</option>
           <option value="imperial">Imperial (lb/in)</option>
@@ -32,15 +33,16 @@
       </div>
     </header>
 
+    <!-- Seção de Perfil do Usuário -->
     <section class="perfil-usuario">
       <h2 data-i18n="perfil">Perfil do Usuário</h2>
       <div class="input-group">
         <label for="nome" data-i18n="nome">Nome:</label>
-        <input type="text" id="nome" />
+        <input type="text" id="nome">
       </div>
       <div class="input-group">
         <label for="idade" data-i18n="idade">Idade:</label>
-        <input type="number" id="idade" />
+        <input type="number" id="idade">
       </div>
       <div class="input-group">
         <label for="sexo" data-i18n="sexo">Sexo:</label>
@@ -54,30 +56,34 @@
       <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
     </section>
 
+    <!-- Seção do cálculo de IMC -->
     <form id="form-imc">
       <div class="input-group">
         <label for="peso" id="label-peso" data-i18n="peso">Peso (kg):</label>
-        <input type="number" id="peso" required />
+        <input type="number" id="peso" required>
       </div>
       <div class="input-group">
         <label for="altura" id="label-altura" data-i18n="altura">Altura (cm):</label>
-        <input type="number" id="altura" required />
+        <input type="number" id="altura" required>
       </div>
       <div class="input-group">
         <label for="meta-peso" data-i18n="meta">Meta de Peso (kg):</label>
-        <input type="number" id="meta-peso" />
+        <input type="number" id="meta-peso">
       </div>
       <button type="submit" data-i18n="calcular">Calcular IMC</button>
     </form>
 
-    <div id="resultado" class="resultado" aria-live="polite"></div>
+    <!-- Resultado do IMC -->
+    <div id="resultado" class="resultado"></div>
 
+    <!-- Recomendação de dieta e exercícios -->
     <section class="recomendacoes">
       <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
       <div id="dieta"></div>
       <div id="exercicio"></div>
     </section>
 
+    <!-- Gráfico de IMC -->
     <section class="faixa-imc">
       <h2 data-i18n="faixas">Faixas de IMC</h2>
       <table>
@@ -96,6 +102,7 @@
       </table>
     </section>
 
+    <!-- Histórico de cálculos -->
     <section class="historico-section">
       <h2 data-i18n="historico">Histórico de Cálculos</h2>
       <table id="historico">
@@ -112,38 +119,36 @@
       <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
     </section>
 
+    <!-- Lembretes -->
     <section class="lembretes-section">
       <h2 data-i18n="lembretes">Lembretes Personalizados</h2>
       <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
-      <input type="text" id="lembrete" />
+      <input type="text" id="lembrete">
       <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
       <ul id="lista-lembretes"></ul>
     </section>
 
-    <section class="clima-section">
-      <h2>Clima Atual 🌤️</h2>
-      <p id="clima-info">Carregando clima...</p>
-    </section>
-
+    <!-- Pomodoro -->
     <section class="pomodoro-section">
-      <h2>Pomodoro Focus ⏱️</h2>
-      <p id="pomodoro-tempo">25:00</p>
+      <h2 data-i18n="pomodoro">Pomodoro</h2>
+      <div id="pomodoro-tempo">25:00</div>
       <button onclick="iniciarPomodoro()">Iniciar</button>
       <button onclick="pausarPomodoro()">Pausar</button>
       <button onclick="resetarPomodoro()">Resetar</button>
     </section>
 
-    <section class="grafico-section">
-      <h2>Gráfico de Progresso 📈</h2>
-      <canvas id="graficoIMC" width="400" height="200"></canvas>
+    <!-- Clima -->
+    <section class="clima-section">
+      <h2 data-i18n="clima">Clima Atual</h2>
+      <p id="clima-info">Carregando...</p>
     </section>
 
+    <!-- Rodapé -->
     <footer>
-      <p>&copy; 2025 projeto - Universidade de Marília (Unimar)</p>
+      <p>Calculadora de IMC - Projeto ADS | Unimar</p>
     </footer>
-  </main>
+  </div>
 
-  <div id="toast-container"></div>
   <script src="scripts.js"></script>
 </body>
 </html>
