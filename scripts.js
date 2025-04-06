@@ -15,16 +15,16 @@ function aplicarEventos() {
   document.getElementById("unidade").addEventListener("change", atualizarUnidade);
   document.getElementById("form-imc").addEventListener("submit", calcularIMC);
   document.getElementById("limpar-historico").addEventListener("click", limparHistorico);
-  document.getElementById("exportar-pdf").addEventListener("click", exportarPDF);
   document.getElementById("salvar-lembrete").addEventListener("click", salvarLembrete);
   document.getElementById("salvar-perfil").addEventListener("click", salvarPerfil);
   document.getElementById("idioma").addEventListener("change", e => {
     localStorage.setItem("idiomaSelecionado", e.target.value);
     traduzirInterface(e.target.value);
   });
-  document.getElementById("toggle-tema").addEventListener("click", alternarTema);
-  document.getElementById("iniciar-pomodoro").addEventListener("click", iniciarPomodoro);
-  document.getElementById("parar-pomodoro").addEventListener("click", pararPomodoro);
+  const toggleTema = document.getElementById("toggle-tema");
+  if (toggleTema) {
+    toggleTema.addEventListener("click", alternarTema);
+  }
 }
 
 function atualizarUnidade() {
@@ -33,82 +33,124 @@ function atualizarUnidade() {
   document.getElementById("label-altura").textContent = unidade === "imperial" ? "Altura (in):" : "Altura (cm):";
 }
 
-function mostrarToast(msg, tipo = "sucesso") {
-  const toast = document.createElement("div");
-  toast.className = `toast ${tipo}`;
-  toast.textContent = msg;
-  document.getElementById("toast-container").appendChild(toast);
-  setTimeout(() => toast.remove(), 4000);
+function calcularIMC(e) {
+  e.preventDefault();
+
+  const unidade = document.getElementById("unidade").value;
+  let peso = parseFloat(document.getElementById("peso").value);
+  let altura = parseFloat(document.getElementById("altura").value);
+  const metaPeso = parseFloat(document.getElementById("meta-peso").value);
+
+  if (unidade === "imperial") {
+    peso *= 0.453592;
+    altura *= 2.54;
+  }
+
+  altura /= 100;
+
+  if (!peso || !altura || peso <= 0 || altura <= 0) {
+    return exibirErro("Por favor, preencha peso e altura com valores positivos.");
+  }
+
+  if (peso < 10 || peso > 400 || altura * 100 < 50 || altura * 100 > 280) {
+    return exibirErro("Esses valores não parecem reais. Verifique o peso ou a altura.");
+  }
+
+  const imc = (peso / (altura ** 2)).toFixed(2);
+  const { mensagem, dieta, exercicio, classeIMC } = gerarRecomendacoes(imc);
+
+  let resultadoTexto = `IMC: ${imc} - ${mensagem}`;
+
+  if (!isNaN(metaPeso) && metaPeso > 0) {
+    const diferenca = (peso - metaPeso).toFixed(1);
+    resultadoTexto += diferenca === "0.0" ? " | Você já atingiu sua meta de peso!"
+      : diferenca > 0 ? ` | Faltam perder ${diferenca} kg para atingir sua meta.`
+      : ` | Faltam ganhar ${Math.abs(diferenca)} kg para atingir sua meta.`;
+  }
+
+  const frases = [
+    "Você está no caminho certo! 💪",
+    "Saúde é o que interessa! 💙",
+    "Continue firme! Cada passo conta. 🚶",
+    "Cuide do seu corpo. Ele é seu templo. 🧘",
+    "Persistência leva ao resultado! ✨"
+  ];
+
+  const fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
+  resultadoTexto += `\n${fraseMotivacional}`;
+
+  mostrarResultado(resultadoTexto, classeIMC);
+  document.getElementById("dieta").textContent = `Dieta recomendada: ${dieta}`;
+  document.getElementById("exercicio").textContent = `Exercício recomendado: ${exercicio}`;
+
+  salvarHistorico(peso, altura * 100, imc);
+  renderizarHistorico();
+  atualizarGraficoIMC();
 }
 
-function buscarClimaAtual() {
-  fetch("https://api.weatherapi.com/v1/current.json?key=SUA_API_KEY&q=auto:ip&lang=pt")
-    .then(res => res.json())
-    .then(dados => {
-      const info = `${dados.location.name}: ${dados.current.temp_c}°C, ${dados.current.condition.text}`;
-      document.getElementById("clima").textContent = info;
-    })
-    .catch(() => document.getElementById("clima").textContent = "Não foi possível carregar o clima.");
+function exibirErro(mensagem) {
+  const resultadoEl = document.getElementById("resultado");
+  resultadoEl.textContent = mensagem;
+  resultadoEl.className = "erro-animacao";
+  resultadoEl.setAttribute("aria-live", "assertive");
+  setTimeout(() => resultadoEl.classList.remove("erro-animacao"), 1000);
 }
 
-let intervaloPomodoro;
-let tempoRestante = 1500;
-
-function iniciarPomodoro() {
-  intervaloPomodoro = setInterval(() => {
-    if (tempoRestante <= 0) {
-      clearInterval(intervaloPomodoro);
-      mostrarToast("Pomodoro finalizado!", "sucesso");
-      return;
-    }
-    tempoRestante--;
-    const minutos = String(Math.floor(tempoRestante / 60)).padStart(2, '0');
-    const segundos = String(tempoRestante % 60).padStart(2, '0');
-    document.getElementById("pomodoro-tempo").textContent = `${minutos}:${segundos}`;
-  }, 1000);
+function mostrarResultado(texto, classe) {
+  const resultadoEl = document.getElementById("resultado");
+  resultadoEl.textContent = texto;
+  resultadoEl.className = classe;
+  resultadoEl.setAttribute("aria-live", "polite");
 }
 
-function pararPomodoro() {
-  clearInterval(intervaloPomodoro);
-  tempoRestante = 1500;
-  document.getElementById("pomodoro-tempo").textContent = "25:00";
+function gerarRecomendacoes(imc) {
+  if (imc < 18.5) return {
+    mensagem: "Abaixo do peso",
+    dieta: "Inclua alimentos ricos em nutrientes e calorias saudáveis como abacate, castanhas e azeite de oliva.",
+    exercicio: "Priorize exercícios de força para ganho de massa muscular.",
+    classeIMC: "imc-baixo"
+  };
+  if (imc < 24.9) return {
+    mensagem: "Peso normal",
+    dieta: "Mantenha uma alimentação equilibrada com frutas, legumes, proteínas e carboidratos saudáveis.",
+    exercicio: "Continue com uma rotina variada entre cardio e musculação.",
+    classeIMC: "imc-normal"
+  };
+  if (imc < 29.9) return {
+    mensagem: "Sobrepeso",
+    dieta: "Reduza a ingestão de alimentos processados e aumente o consumo de fibras e proteínas magras.",
+    exercicio: "Priorize atividades aeróbicas como caminhada, corrida ou bicicleta.",
+    classeIMC: "imc-sobrepeso"
+  };
+  return {
+    mensagem: "Obesidade",
+    dieta: "Consulte um nutricionista. Evite doces, frituras e prefira alimentos naturais.",
+    exercicio: "Comece com atividades leves e frequentes, como caminhadas e pilates.",
+    classeIMC: "imc-obesidade"
+  };
 }
 
-function exportarPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.text("Histórico de IMC", 10, 10);
+function salvarHistorico(peso, altura, imc) {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
-  historico.slice(0, 20).forEach((item, i) => {
-    doc.text(`${item.data} - Peso: ${item.peso}kg, Altura: ${item.altura}cm, IMC: ${item.imc}`, 10, 20 + (i * 10));
+  historico.unshift({ data: new Date().toLocaleString(), peso, altura, imc });
+  localStorage.setItem("historicoIMC", JSON.stringify(historico));
+}
+
+function renderizarHistorico() {
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const tbody = document.querySelector("#historico tbody");
+  tbody.innerHTML = "";
+  historico.forEach(entry => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${entry.data}</td><td>${entry.peso}</td><td>${entry.altura}</td><td>${entry.imc}</td>`;
+    tbody.appendChild(row);
   });
-  doc.save("historico_imc.pdf");
+  atualizarGraficoIMC();
 }
 
-function atualizarProgressoMeta(peso, metaPeso) {
-  if (!metaPeso || metaPeso <= 0) return;
-  const progresso = Math.min(100, Math.abs(((peso - metaPeso) / peso) * 100));
-  document.getElementById("barra-progresso").value = progresso;
-}
-
-function calcularEstatisticas() {
-  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
-  if (!historico.length) return;
-  const imcs = historico.map(e => parseFloat(e.imc));
-  const total = imcs.length;
-  const media = (imcs.reduce((a, b) => a + b, 0) / total).toFixed(2);
-  const min = Math.min(...imcs).toFixed(2);
-  const max = Math.max(...imcs).toFixed(2);
-
-  const perfil = JSON.parse(localStorage.getItem("perfilUsuarioIMC"));
-  const meta = parseFloat(document.getElementById("meta-peso").value);
-  const atingidas = historico.filter(e => Math.abs(e.peso - meta) < 0.5).length;
-
-  document.getElementById("total-registros").textContent = total;
-  document.getElementById("media-imc").textContent = media;
-  document.getElementById("imc-min").textContent = min;
-  document.getElementById("imc-max").textContent = max;
-  document.getElementById("metas-alcancadas").textContent = `${((atingidas / total) * 100).toFixed(1)}%`;
+function limparHistorico() {
+  localStorage.removeItem("historicoIMC");
+  renderizarHistorico();
 }
 
 function aplicarIdiomaSalvo() {
