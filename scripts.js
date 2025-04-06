@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarHistorico();
   renderizarLembretes();
   aplicarIdiomaSalvo();
+  aplicarTemaSalvo();
 });
 
 function aplicarEventos() {
@@ -19,6 +20,10 @@ function aplicarEventos() {
     localStorage.setItem("idiomaSelecionado", e.target.value);
     traduzirInterface(e.target.value);
   });
+  const toggleTema = document.getElementById("toggle-tema");
+  if (toggleTema) {
+    toggleTema.addEventListener("click", alternarTema);
+  }
 }
 
 // ===============================
@@ -174,6 +179,19 @@ function aplicarIdiomaSalvo() {
   const idioma = localStorage.getItem("idiomaSelecionado") || "pt";
   document.getElementById("idioma").value = idioma;
   traduzirInterface(idioma);
+}
+
+function aplicarTemaSalvo() {
+  const tema = localStorage.getItem("temaIMC") || "light";
+  document.documentElement.setAttribute("data-tema", tema);
+}
+
+function alternarTema() {
+  const root = document.documentElement;
+  const temaAtual = root.getAttribute("data-tema") || "light";
+  const novoTema = temaAtual === "light" ? "dark" : "light";
+  root.setAttribute("data-tema", novoTema);
+  localStorage.setItem("temaIMC", novoTema);
 }
 
 function traduzirInterface(idioma) {
