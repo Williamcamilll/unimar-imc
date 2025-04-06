@@ -2,18 +2,15 @@
 <html lang="pt-br" data-tema="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IMC | Unimar</title>
-
-  <!-- Estilo -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de IMC | Unimar</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Font Awesome para ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Chart.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <main class="container">
+  <main class="container fade-in-up">
     <header>
       <h1 data-i18n="titulo">Calculadora de IMC</h1>
       <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
@@ -77,9 +74,30 @@
 
     <div id="resultado" class="resultado" aria-live="polite"></div>
 
+    <div class="progresso-meta">
+      <label for="barra-progresso">Progresso da Meta de Peso:</label>
+      <progress id="barra-progresso" max="100" value="0"></progress>
+    </div>
+
     <section class="grafico-section">
       <h2><i class="fas fa-chart-line"></i> Evolução do IMC</h2>
       <canvas id="graficoIMC" width="400" height="180"></canvas>
+    </section>
+
+    <section class="estatisticas-section">
+      <h2>Estatísticas Gerais</h2>
+      <ul id="estatisticas-imc">
+        <li>Total de Registros: <span id="total-registros">0</span></li>
+        <li>Média de IMC: <span id="media-imc">0</span></li>
+        <li>IMC mais baixo: <span id="imc-min">0</span></li>
+        <li>IMC mais alto: <span id="imc-max">0</span></li>
+        <li>Metas Alcançadas: <span id="metas-alcancadas">0%</span></li>
+      </ul>
+    </section>
+
+    <section class="clima-section">
+      <h2>Clima Atual</h2>
+      <div id="clima">Carregando clima...</div>
     </section>
 
     <section class="recomendacoes">
@@ -120,6 +138,7 @@
         <tbody></tbody>
       </table>
       <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
+      <button id="exportar-pdf">Exportar PDF</button>
     </section>
 
     <section class="lembretes-section">
@@ -129,8 +148,22 @@
       <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
       <ul id="lista-lembretes"></ul>
     </section>
+
+    <section class="pomodoro-section">
+      <h2>Modo Foco (Pomodoro)</h2>
+      <div id="pomodoro-tempo">25:00</div>
+      <button id="iniciar-pomodoro">Iniciar</button>
+      <button id="parar-pomodoro">Parar</button>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2025 William Chaves Camilo · Universidade de Marília - ADS</p>
+  </footer>
+
+  <!-- Toast container (mensagens flutuantes) -->
+  <div id="toast-container"></div>
+
   <script type="module" src="scripts.js"></script>
 </body>
 </html>
-
