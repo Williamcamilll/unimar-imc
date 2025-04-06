@@ -8,8 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarLembretes();
   aplicarIdiomaSalvo();
   aplicarTemaSalvo();
+  buscarClimaAtual();
 });
 
+// ===============================
+//        EVENTOS GERAIS
+// ===============================
 function aplicarEventos() {
   document.getElementById("unidade").addEventListener("change", atualizarUnidade);
   document.getElementById("form-imc").addEventListener("submit", calcularIMC);
@@ -21,17 +25,21 @@ function aplicarEventos() {
     traduzirInterface(e.target.value);
   });
   const toggleTema = document.getElementById("toggle-tema");
-  if (toggleTema) {
-    toggleTema.addEventListener("click", alternarTema);
-  }
+  if (toggleTema) toggleTema.addEventListener("click", alternarTema);
 }
 
+// ===============================
+//        UNIDADE DE MEDIDA
+// ===============================
 function atualizarUnidade() {
-  const unidade = document.getElementById("unidade").value;
+  const unidade = this.value;
   document.getElementById("label-peso").textContent = unidade === "imperial" ? "Peso (lb):" : "Peso (kg):";
   document.getElementById("label-altura").textContent = unidade === "imperial" ? "Altura (in):" : "Altura (cm):";
 }
 
+// ===============================
+//        CÁLCULO DE IMC
+// ===============================
 function calcularIMC(e) {
   e.preventDefault();
 
@@ -62,8 +70,10 @@ function calcularIMC(e) {
 
   if (!isNaN(metaPeso) && metaPeso > 0) {
     const diferenca = (peso - metaPeso).toFixed(1);
-    resultadoTexto += diferenca === "0.0" ? " | Você já atingiu sua meta de peso!"
-      : diferenca > 0 ? ` | Faltam perder ${diferenca} kg para atingir sua meta.`
+    resultadoTexto += diferenca === "0.0"
+      ? " | Você já atingiu sua meta de peso!"
+      : diferenca > 0
+      ? ` | Faltam perder ${diferenca} kg para atingir sua meta.`
       : ` | Faltam ganhar ${Math.abs(diferenca)} kg para atingir sua meta.`;
   }
 
@@ -84,14 +94,19 @@ function calcularIMC(e) {
 
   salvarHistorico(peso, altura * 100, imc);
   renderizarHistorico();
+  atualizarEstatisticas();
   atualizarGraficoIMC();
 }
 
+// ===============================
+//      EXIBIÇÃO E ERROS
+// ===============================
 function exibirErro(mensagem) {
   const resultadoEl = document.getElementById("resultado");
   resultadoEl.textContent = mensagem;
   resultadoEl.className = "erro-animacao";
   resultadoEl.setAttribute("aria-live", "assertive");
+
   setTimeout(() => resultadoEl.classList.remove("erro-animacao"), 1000);
 }
 
@@ -129,12 +144,15 @@ function gerarRecomendacoes(imc) {
   };
 }
 
+// ===============================
+//      PERFIL DO USUÁRIO
+// ===============================
 function salvarPerfil() {
   const nome = document.getElementById("nome").value.trim();
   const idade = document.getElementById("idade").value.trim();
   const sexo = document.getElementById("sexo").value;
   localStorage.setItem("perfilUsuarioIMC", JSON.stringify({ nome, idade, sexo }));
-  alert("Perfil salvo com sucesso!");
+  exibirToast("Perfil salvo com sucesso!");
 }
 
 function carregarPerfil() {
@@ -146,6 +164,9 @@ function carregarPerfil() {
   }
 }
 
+// ===============================
+//      HISTÓRICO DE CÁLCULOS
+// ===============================
 function salvarHistorico(peso, altura, imc) {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
   historico.unshift({ data: new Date().toLocaleString(), peso, altura, imc });
@@ -167,8 +188,12 @@ function renderizarHistorico() {
 function limparHistorico() {
   localStorage.removeItem("historicoIMC");
   renderizarHistorico();
+  atualizarEstatisticas();
 }
 
+// ===============================
+//         LEMBRETES
+// ===============================
 function salvarLembrete() {
   const lembrete = document.getElementById("lembrete").value.trim();
   if (!lembrete) return;
@@ -198,14 +223,15 @@ function renderizarLembretes() {
   });
 }
 
+// ===============================
+//         GRÁFICO DE IMC
+// ===============================
 function atualizarGraficoIMC() {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
   const labels = historico.map(e => e.data).reverse();
   const dados = historico.map(e => e.imc).reverse();
   const ctx = document.getElementById("graficoIMC").getContext("2d");
-  if (window.graficoIMC) {
-    window.graficoIMC.destroy();
-  }
+  if (window.graficoIMC) window.graficoIMC.destroy();
   window.graficoIMC = new Chart(ctx, {
     type: "line",
     data: {
@@ -216,31 +242,46 @@ function atualizarGraficoIMC() {
         borderColor: "#0072ce",
         backgroundColor: "rgba(0, 114, 206, 0.1)",
         tension: 0.3,
-        fill: true,
-        pointBackgroundColor: "#fff",
-        pointBorderColor: "#0072ce",
-        pointRadius: 4
+        fill: true
       }]
     },
     options: {
       responsive: true,
       scales: {
-        y: {
-          suggestedMin: 15,
-          suggestedMax: 40
-        }
-      },
-      plugins: {
-        legend: {
-          labels: {
-            color: getComputedStyle(document.documentElement).getPropertyValue('--cor-texto')
-          }
-        }
+        y: { suggestedMin: 15, suggestedMax: 40 }
       }
     }
   });
 }
 
+// ===============================
+//         ESTATÍSTICAS
+// ===============================
+function atualizarEstatisticas() {
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const total = historico.length;
+  const media = total > 0 ? (historico.reduce((s, e) => s + parseFloat(e.imc), 0) / total).toFixed(2) : 0;
+  document.getElementById("total-calculos").textContent = total;
+  document.getElementById("media-imc").textContent = media;
+}
+
+// ===============================
+//        CLIMA ATUAL
+// ===============================
+function buscarClimaAtual() {
+  const climaInfo = document.getElementById("clima-info");
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=-22.22&longitude=-49.95&current_weather=true")
+    .then(res => res.json())
+    .then(dado => {
+      const c = dado.current_weather;
+      climaInfo.textContent = `🌡️ ${c.temperature}°C | 💨 Vento: ${c.windspeed} km/h`;
+    })
+    .catch(() => climaInfo.textContent = "Erro ao buscar o clima.");
+}
+
+// ===============================
+//         TEMA E IDIOMA
+// ===============================
 function aplicarIdiomaSalvo() {
   const idioma = localStorage.getItem("idiomaSelecionado") || "pt";
   document.getElementById("idioma").value = idioma;
@@ -260,6 +301,9 @@ function alternarTema() {
   localStorage.setItem("temaIMC", novoTema);
 }
 
+// ===============================
+//         TRADUÇÃO
+// ===============================
 function traduzirInterface(idioma) {
   const traducoes = {
     pt: {
