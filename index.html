@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-tema="light">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculadora de IMC | Unimar</title>
+  <title>Calculadora de IMC</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="container">
     <header>
       <h1 data-i18n="titulo">Calculadora de IMC</h1>
       <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
-      
+
       <div class="input-group">
         <label for="idioma">Idioma:</label>
         <select id="idioma">
           <option value="pt">Português</option>
           <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="zh">中文</option>
         </select>
       </div>
 
@@ -30,7 +31,7 @@
       </div>
     </header>
 
-    <section>
+    <section class="perfil-usuario">
       <h2 data-i18n="perfil">Perfil do Usuário</h2>
       <div class="input-group">
         <label for="nome" data-i18n="nome">Nome:</label>
@@ -68,7 +69,7 @@
       <button type="submit" data-i18n="calcular">Calcular IMC</button>
     </form>
 
-    <div id="resultado" class="resultado" role="alert" aria-live="polite"></div>
+    <div id="resultado" class="resultado"></div>
 
     <section class="recomendacoes">
       <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
@@ -86,10 +87,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>&lt; 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
+          <tr><td>Menor que 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
           <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
-          <tr><td>25 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
-          <tr><td>≥ 30</td><td data-i18n="obesidade">Obesidade</td></tr>
+          <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
+          <tr><td>30.0 ou mais</td><td data-i18n="obesidade">Obesidade</td></tr>
         </tbody>
       </table>
     </section>
@@ -107,7 +108,6 @@
         </thead>
         <tbody></tbody>
       </table>
-      <canvas id="graficoIMC" style="margin-top: 2rem;"></canvas>
       <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
     </section>
 
@@ -119,30 +119,21 @@
       <ul id="lista-lembretes"></ul>
     </section>
 
+    <section class="clima-section">
+      <h2>Clima Atual 🌤️</h2>
+      <p id="clima-info">Carregando clima...</p>
+    </section>
+
     <section class="pomodoro-section">
-      <h2>Pomodoro</h2>
+      <h2>Pomodoro Focus ⏱️</h2>
       <p id="pomodoro-tempo">25:00</p>
       <button onclick="iniciarPomodoro()">Iniciar</button>
       <button onclick="pausarPomodoro()">Pausar</button>
       <button onclick="resetarPomodoro()">Resetar</button>
     </section>
 
-    <section class="estatisticas-section">
-      <h2>Estatísticas</h2>
-      <ul>
-        <li>Total de cálculos: <span id="total-calculos">0</span></li>
-        <li>Média de IMC: <span id="media-imc">0</span></li>
-      </ul>
-    </section>
-
-    <section class="clima-section">
-      <h2>Clima Atual</h2>
-      <div id="clima-info">Carregando clima...</div>
-    </section>
-
     <footer>
-      <p>© 2025 - Projeto IMC desenvolvido por William Chaves Camilo</p>
-      <button id="toggle-tema">Alternar Tema</button>
+      <p>&copy; 2025 William Chaves Camilo - Universidade de Marília (Unimar)</p>
     </footer>
   </main>
 
@@ -150,3 +141,4 @@
   <script src="scripts.js"></script>
 </body>
 </html>
+
