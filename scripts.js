@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarLembretes();
   aplicarIdiomaSalvo();
   aplicarTemaSalvo();
-  buscarClimaAtual();
 });
 
 function aplicarEventos() {
@@ -130,6 +129,23 @@ function gerarRecomendacoes(imc) {
   };
 }
 
+function salvarPerfil() {
+  const nome = document.getElementById("nome").value.trim();
+  const idade = document.getElementById("idade").value.trim();
+  const sexo = document.getElementById("sexo").value;
+  localStorage.setItem("perfilUsuarioIMC", JSON.stringify({ nome, idade, sexo }));
+  alert("Perfil salvo com sucesso!");
+}
+
+function carregarPerfil() {
+  const perfil = JSON.parse(localStorage.getItem("perfilUsuarioIMC"));
+  if (perfil) {
+    document.getElementById("nome").value = perfil.nome;
+    document.getElementById("idade").value = perfil.idade;
+    document.getElementById("sexo").value = perfil.sexo;
+  }
+}
+
 function salvarHistorico(peso, altura, imc) {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
   historico.unshift({ data: new Date().toLocaleString(), peso, altura, imc });
@@ -151,6 +167,78 @@ function renderizarHistorico() {
 function limparHistorico() {
   localStorage.removeItem("historicoIMC");
   renderizarHistorico();
+}
+
+function salvarLembrete() {
+  const lembrete = document.getElementById("lembrete").value.trim();
+  if (!lembrete) return;
+  const lembretes = JSON.parse(localStorage.getItem("lembretesIMC")) || [];
+  lembretes.push(lembrete);
+  localStorage.setItem("lembretesIMC", JSON.stringify(lembretes));
+  document.getElementById("lembrete").value = "";
+  renderizarLembretes();
+}
+
+function renderizarLembretes() {
+  const lembretes = JSON.parse(localStorage.getItem("lembretesIMC")) || [];
+  const lista = document.getElementById("lista-lembretes");
+  lista.innerHTML = "";
+  lembretes.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    const botaoRemover = document.createElement("button");
+    botaoRemover.textContent = "Remover";
+    botaoRemover.onclick = () => {
+      lembretes.splice(index, 1);
+      localStorage.setItem("lembretesIMC", JSON.stringify(lembretes));
+      renderizarLembretes();
+    };
+    li.appendChild(botaoRemover);
+    lista.appendChild(li);
+  });
+}
+
+function atualizarGraficoIMC() {
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const labels = historico.map(e => e.data).reverse();
+  const dados = historico.map(e => e.imc).reverse();
+  const ctx = document.getElementById("graficoIMC").getContext("2d");
+  if (window.graficoIMC) {
+    window.graficoIMC.destroy();
+  }
+  window.graficoIMC = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "IMC",
+        data: dados,
+        borderColor: "#0072ce",
+        backgroundColor: "rgba(0, 114, 206, 0.1)",
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: "#fff",
+        pointBorderColor: "#0072ce",
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          suggestedMin: 15,
+          suggestedMax: 40
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--cor-texto')
+          }
+        }
+      }
+    }
+  });
 }
 
 function aplicarIdiomaSalvo() {
