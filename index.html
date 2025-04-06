@@ -2,9 +2,10 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculadora de IMC</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="container">
@@ -132,12 +133,13 @@
       <button onclick="resetarPomodoro()">Resetar</button>
     </section>
 
+    <section class="grafico-section">
+      <h2>Gráfico de Progresso 📈</h2>
+      <canvas id="graficoIMC" width="400" height="200"></canvas>
+    </section>
+
     <footer>
-      <p>&copy; 2025 William Chaves Camilo - Universidade de Marília (Unimar)</p>
-      <p>
-        <a href="https://github.com/" target="_blank">GitHub</a> |
-        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
-      </p>
+      <p>&copy; 2025 projeto - Universidade de Marília (Unimar)</p>
     </footer>
   </main>
 
@@ -145,3 +147,4 @@
   <script src="scripts.js"></script>
 </body>
 </html>
+
