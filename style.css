@@ -50,8 +50,14 @@ body {
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1 {
@@ -188,6 +194,12 @@ footer {
   padding: 1rem;
   font-size: 0.9rem;
   color: #888;
+}
+
+footer a {
+  color: var(--cor-secundaria);
+  margin: 0 0.5rem;
+  text-decoration: none;
 }
 
 progress {
