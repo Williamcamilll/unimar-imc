@@ -62,6 +62,17 @@ function calcularIMC(e) {
       : ` | Faltam ganhar ${Math.abs(diferenca)} kg para atingir sua meta.`;
   }
 
+  const frases = [
+    "Você está no caminho certo! 💪",
+    "Saúde é o que interessa! 💙",
+    "Continue firme! Cada passo conta. 🚶",
+    "Cuide do seu corpo. Ele é seu templo. 🧘",
+    "Persistência leva ao resultado! ✨"
+  ];
+
+  const fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
+  resultadoTexto += `\n${fraseMotivacional}`;
+
   mostrarResultado(resultadoTexto, classeIMC);
   document.getElementById("dieta").textContent = `Dieta recomendada: ${dieta}`;
   document.getElementById("exercicio").textContent = `Exercício recomendado: ${exercicio}`;
