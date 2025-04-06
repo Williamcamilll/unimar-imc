@@ -26,9 +26,6 @@ function aplicarEventos() {
   }
 }
 
-// ===============================
-//       FUNÇÕES PRINCIPAIS
-// ===============================
 function atualizarUnidade() {
   const unidade = this.value;
   document.getElementById("label-peso").textContent = unidade === "imperial" ? "Peso (lb):" : "Peso (kg):";
@@ -71,6 +68,7 @@ function calcularIMC(e) {
 
   salvarHistorico(peso, altura * 100, imc);
   renderizarHistorico();
+  atualizarGraficoIMC();
 }
 
 function mostrarResultado(texto, classe) {
@@ -139,6 +137,7 @@ function renderizarHistorico() {
     row.innerHTML = `<td>${entry.data}</td><td>${entry.peso}</td><td>${entry.altura}</td><td>${entry.imc}</td>`;
     tbody.appendChild(row);
   });
+  atualizarGraficoIMC();
 }
 
 function limparHistorico() {
@@ -172,6 +171,49 @@ function renderizarLembretes() {
     };
     li.appendChild(botaoRemover);
     lista.appendChild(li);
+  });
+}
+
+function atualizarGraficoIMC() {
+  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
+  const labels = historico.map(e => e.data).reverse();
+  const dados = historico.map(e => e.imc).reverse();
+  const ctx = document.getElementById("graficoIMC").getContext("2d");
+  if (window.graficoIMC) {
+    window.graficoIMC.destroy();
+  }
+  window.graficoIMC = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "IMC",
+        data: dados,
+        borderColor: "#0072ce",
+        backgroundColor: "rgba(0, 114, 206, 0.1)",
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: "#fff",
+        pointBorderColor: "#0072ce",
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          suggestedMin: 15,
+          suggestedMax: 40
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: getComputedStyle(document.documentElement).getPropertyValue('--cor-texto')
+          }
+        }
+      }
+    }
   });
 }
 
