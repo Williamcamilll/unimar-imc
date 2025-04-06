@@ -1,6 +1,3 @@
-// ===============================
-//        CONFIGURAÇÕES INICIAIS
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   aplicarEventos();
   carregarPerfil();
@@ -11,9 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   buscarClimaAtual();
 });
 
-// ===============================
-//        EVENTOS GERAIS
-// ===============================
 function aplicarEventos() {
   document.getElementById("unidade").addEventListener("change", atualizarUnidade);
   document.getElementById("form-imc").addEventListener("submit", calcularIMC);
@@ -28,18 +22,12 @@ function aplicarEventos() {
   if (toggleTema) toggleTema.addEventListener("click", alternarTema);
 }
 
-// ===============================
-//        UNIDADE DE MEDIDA
-// ===============================
 function atualizarUnidade() {
   const unidade = this.value;
   document.getElementById("label-peso").textContent = unidade === "imperial" ? "Peso (lb):" : "Peso (kg):";
   document.getElementById("label-altura").textContent = unidade === "imperial" ? "Altura (in):" : "Altura (cm):";
 }
 
-// ===============================
-//        CÁLCULO DE IMC
-// ===============================
 function calcularIMC(e) {
   e.preventDefault();
 
@@ -67,7 +55,6 @@ function calcularIMC(e) {
   const { mensagem, dieta, exercicio, classeIMC } = gerarRecomendacoes(imc);
 
   let resultadoTexto = `IMC: ${imc} - ${mensagem}`;
-
   if (!isNaN(metaPeso) && metaPeso > 0) {
     const diferenca = (peso - metaPeso).toFixed(1);
     resultadoTexto += diferenca === "0.0"
@@ -85,8 +72,7 @@ function calcularIMC(e) {
     "Persistência leva ao resultado! ✨"
   ];
 
-  const fraseMotivacional = frases[Math.floor(Math.random() * frases.length)];
-  resultadoTexto += `\n${fraseMotivacional}`;
+  resultadoTexto += `\n${frases[Math.floor(Math.random() * frases.length)]}`;
 
   mostrarResultado(resultadoTexto, classeIMC);
   document.getElementById("dieta").textContent = `Dieta recomendada: ${dieta}`;
@@ -94,13 +80,8 @@ function calcularIMC(e) {
 
   salvarHistorico(peso, altura * 100, imc);
   renderizarHistorico();
-  atualizarEstatisticas();
-  atualizarGraficoIMC();
 }
 
-// ===============================
-//      EXIBIÇÃO E ERROS
-// ===============================
 function exibirErro(mensagem) {
   const resultadoEl = document.getElementById("resultado");
   resultadoEl.textContent = mensagem;
@@ -132,27 +113,24 @@ function gerarRecomendacoes(imc) {
   };
   if (imc < 29.9) return {
     mensagem: "Sobrepeso",
-    dieta: "Reduza a ingestão de alimentos processados e aumente o consumo de fibras e proteínas magras.",
-    exercicio: "Priorize atividades aeróbicas como caminhada, corrida ou bicicleta.",
+    dieta: "Reduza alimentos processados e aumente fibras e proteínas magras.",
+    exercicio: "Priorize atividades aeróbicas como caminhada ou bicicleta.",
     classeIMC: "imc-sobrepeso"
   };
   return {
     mensagem: "Obesidade",
-    dieta: "Consulte um nutricionista. Evite doces, frituras e prefira alimentos naturais.",
-    exercicio: "Comece com atividades leves e frequentes, como caminhadas e pilates.",
+    dieta: "Consulte um nutricionista. Evite doces e frituras.",
+    exercicio: "Comece com caminhadas leves e aumente gradualmente.",
     classeIMC: "imc-obesidade"
   };
 }
 
-// ===============================
-//      PERFIL DO USUÁRIO
-// ===============================
 function salvarPerfil() {
   const nome = document.getElementById("nome").value.trim();
   const idade = document.getElementById("idade").value.trim();
   const sexo = document.getElementById("sexo").value;
   localStorage.setItem("perfilUsuarioIMC", JSON.stringify({ nome, idade, sexo }));
-  exibirToast("Perfil salvo com sucesso!");
+  alert("Perfil salvo com sucesso!");
 }
 
 function carregarPerfil() {
@@ -164,9 +142,6 @@ function carregarPerfil() {
   }
 }
 
-// ===============================
-//      HISTÓRICO DE CÁLCULOS
-// ===============================
 function salvarHistorico(peso, altura, imc) {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
   historico.unshift({ data: new Date().toLocaleString(), peso, altura, imc });
@@ -182,18 +157,13 @@ function renderizarHistorico() {
     row.innerHTML = `<td>${entry.data}</td><td>${entry.peso}</td><td>${entry.altura}</td><td>${entry.imc}</td>`;
     tbody.appendChild(row);
   });
-  atualizarGraficoIMC();
 }
 
 function limparHistorico() {
   localStorage.removeItem("historicoIMC");
   renderizarHistorico();
-  atualizarEstatisticas();
 }
 
-// ===============================
-//         LEMBRETES
-// ===============================
 function salvarLembrete() {
   const lembrete = document.getElementById("lembrete").value.trim();
   if (!lembrete) return;
@@ -223,51 +193,6 @@ function renderizarLembretes() {
   });
 }
 
-// ===============================
-//         GRÁFICO DE IMC
-// ===============================
-function atualizarGraficoIMC() {
-  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
-  const labels = historico.map(e => e.data).reverse();
-  const dados = historico.map(e => e.imc).reverse();
-  const ctx = document.getElementById("graficoIMC").getContext("2d");
-  if (window.graficoIMC) window.graficoIMC.destroy();
-  window.graficoIMC = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels,
-      datasets: [{
-        label: "IMC",
-        data: dados,
-        borderColor: "#0072ce",
-        backgroundColor: "rgba(0, 114, 206, 0.1)",
-        tension: 0.3,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { suggestedMin: 15, suggestedMax: 40 }
-      }
-    }
-  });
-}
-
-// ===============================
-//         ESTATÍSTICAS
-// ===============================
-function atualizarEstatisticas() {
-  const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
-  const total = historico.length;
-  const media = total > 0 ? (historico.reduce((s, e) => s + parseFloat(e.imc), 0) / total).toFixed(2) : 0;
-  document.getElementById("total-calculos").textContent = total;
-  document.getElementById("media-imc").textContent = media;
-}
-
-// ===============================
-//        CLIMA ATUAL
-// ===============================
 function buscarClimaAtual() {
   const climaInfo = document.getElementById("clima-info");
   fetch("https://api.open-meteo.com/v1/forecast?latitude=-22.22&longitude=-49.95&current_weather=true")
@@ -279,9 +204,6 @@ function buscarClimaAtual() {
     .catch(() => climaInfo.textContent = "Erro ao buscar o clima.");
 }
 
-// ===============================
-//         TEMA E IDIOMA
-// ===============================
 function aplicarIdiomaSalvo() {
   const idioma = localStorage.getItem("idiomaSelecionado") || "pt";
   document.getElementById("idioma").value = idioma;
@@ -301,21 +223,19 @@ function alternarTema() {
   localStorage.setItem("temaIMC", novoTema);
 }
 
-// ===============================
-//         TRADUÇÃO
-// ===============================
+// ==============================
+//      SUPORTE A TRADUÇÃO
+// ==============================
 function traduzirInterface(idioma) {
   const traducoes = {
     pt: {
       titulo: "Calculadora de IMC",
       subtitulo: "Projeto Engenharia de Software - ADS | Unimar",
-      perfil: "Perfil do Usuário",
-      nome: "Nome:", idade: "Idade:", sexo: "Sexo:", salvarPerfil: "Salvar Perfil",
+      perfil: "Perfil do Usuário", nome: "Nome:", idade: "Idade:", sexo: "Sexo:", salvarPerfil: "Salvar Perfil",
       peso: "Peso (kg):", altura: "Altura (cm):", meta: "Meta de Peso (kg):",
       calcular: "Calcular IMC", recomendacoes: "Recomendações Personalizadas",
       faixas: "Faixas de IMC", classificacao: "Classificação",
-      abaixo: "Abaixo do peso", normal: "Peso normal",
-      sobrepeso: "Sobrepeso", obesidade: "Obesidade",
+      abaixo: "Abaixo do peso", normal: "Peso normal", sobrepeso: "Sobrepeso", obesidade: "Obesidade",
       historico: "Histórico de Cálculos", data: "Data", limpar: "Limpar Histórico",
       lembretes: "Lembretes Personalizados", escreva: "Escreva um lembrete:", salvarLembrete: "Salvar Lembrete"
     },
@@ -325,12 +245,32 @@ function traduzirInterface(idioma) {
       peso: "Weight (kg):", altura: "Height (cm):", meta: "Weight Goal (kg):",
       calcular: "Calculate BMI", recomendacoes: "Personalized Recommendations",
       faixas: "BMI Ranges", classificacao: "Classification",
-      abaixo: "Underweight", normal: "Normal weight",
-      sobrepeso: "Overweight", obesidade: "Obesity",
+      abaixo: "Underweight", normal: "Normal weight", sobrepeso: "Overweight", obesidade: "Obesity",
       historico: "Calculation History", data: "Date", limpar: "Clear History",
       lembretes: "Personal Reminders", escreva: "Write a reminder:", salvarLembrete: "Save Reminder"
+    },
+    es: {
+      titulo: "Calculadora de IMC", subtitulo: "Proyecto de Ingeniería de Software - ADS | Unimar",
+      perfil: "Perfil del Usuario", nome: "Nombre:", idade: "Edad:", sexo: "Género:", salvarPerfil: "Guardar Perfil",
+      peso: "Peso (kg):", altura: "Altura (cm):", meta: "Meta de Peso (kg):",
+      calcular: "Calcular IMC", recomendacoes: "Recomendaciones Personalizadas",
+      faixas: "Rangos de IMC", classificacao: "Clasificación",
+      abaixo: "Bajo peso", normal: "Peso normal", sobrepeso: "Sobrepeso", obesidade: "Obesidad",
+      historico: "Historial de Cálculos", data: "Fecha", limpar: "Borrar Historial",
+      lembretes: "Recordatorios Personalizados", escreva: "Escribe un recordatorio:", salvarLembrete: "Guardar Recordatorio"
+    },
+    zh: {
+      titulo: "BMI计算器", subtitulo: "软件工程项目 - ADS | Unimar",
+      perfil: "用户资料", nome: "姓名：", idade: "年龄：", sexo: "性别：", salvarPerfil: "保存资料",
+      peso: "体重 (kg)：", altura: "身高 (cm)：", meta: "目标体重 (kg)：",
+      calcular: "计算BMI", recomendacoes: "个性化建议",
+      faixas: "BMI范围", classificacao: "分类",
+      abaixo: "体重过轻", normal: "正常体重", sobrepeso: "超重", obesidade: "肥胖",
+      historico: "计算历史", data: "日期", limpar: "清除历史",
+      lembretes: "个性化提醒", escreva: "写下一个提醒：", salvarLembrete: "保存提醒"
     }
   };
+
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const chave = el.getAttribute("data-i18n");
     if (traducoes[idioma][chave]) el.textContent = traducoes[idioma][chave];
