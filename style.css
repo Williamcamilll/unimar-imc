@@ -27,6 +27,24 @@
 }
 
 /* ============================
+   ANIMAÇÕES
+   ============================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* ============================
    RESET GERAL E TIPOGRAFIA
    ============================ */
 * {
@@ -139,6 +157,7 @@ button:hover {
   border-radius: var(--radius);
   background-color: #eef4fb;
   border: 1px solid var(--borda);
+  white-space: pre-line;
 }
 
 section {
