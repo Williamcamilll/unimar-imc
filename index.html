@@ -4,13 +4,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Calculadora de IMC moderna, responsiva e elegante - Projeto Engenharia de Software - ADS | Unimar">
+  <meta name="description" content="Calculadora de IMC com histórico, lembretes, tema escuro e gráfico interativo. Projeto de Engenharia de Software - Unimar." />
+  <meta name="theme-color" content="#0072ce" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="robots" content="index, follow" />
+
   <title>IMC | Unimar</title>
 
-  <!-- Ícones -->
+  <!-- Ícones e fontes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" async></script>
 </head>
 
 <body>
@@ -19,28 +26,30 @@
       <h1 data-i18n="titulo"><i class="fas fa-weight"></i> Calculadora de IMC</h1>
       <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
 
-      <div class="input-group">
-        <label for="idioma">Idioma:</label>
-        <select id="idioma" aria-label="Selecione o idioma">
-          <option value="pt">Português</option>
-          <option value="en">English</option>
-        </select>
-      </div>
+      <nav aria-label="Configurações iniciais">
+        <div class="input-group">
+          <label for="idioma">Idioma:</label>
+          <select id="idioma" aria-label="Selecione o idioma">
+            <option value="pt">Português</option>
+            <option value="en">English</option>
+          </select>
+        </div>
 
-      <div class="input-group">
-        <label for="unidade">Unidade:</label>
-        <select id="unidade" aria-label="Selecione a unidade de medida">
-          <option value="metric">Métrico (kg/cm)</option>
-          <option value="imperial">Imperial (lb/in)</option>
-        </select>
-      </div>
+        <div class="input-group">
+          <label for="unidade">Unidade:</label>
+          <select id="unidade" aria-label="Selecione a unidade de medida">
+            <option value="metric">Métrico (kg/cm)</option>
+            <option value="imperial">Imperial (lb/in)</option>
+          </select>
+        </div>
 
-      <div class="input-group">
-        <button id="toggle-tema" aria-label="Alternar tema"><i class="fas fa-adjust"></i> Tema</button>
-      </div>
+        <div class="input-group">
+          <button id="toggle-tema" aria-label="Alternar tema"><i class="fas fa-adjust"></i> Tema</button>
+        </div>
+      </nav>
     </header>
 
-    <section class="perfil-usuario">
+    <section aria-label="Perfil do Usuário">
       <h2 data-i18n="perfil"><i class="fas fa-user"></i> Perfil do Usuário</h2>
       <div class="input-group">
         <label for="nome" data-i18n="nome">Nome:</label>
@@ -62,14 +71,14 @@
       <button id="salvar-perfil" data-i18n="salvarPerfil"><i class="fas fa-save"></i> Salvar Perfil</button>
     </section>
 
-    <form id="form-imc">
+    <form id="form-imc" aria-label="Formulário de cálculo de IMC">
       <div class="input-group">
         <label for="peso" id="label-peso" data-i18n="peso">Peso (kg):</label>
-        <input type="number" id="peso" required aria-label="Digite seu peso atual em quilogramas" />
+        <input type="number" id="peso" required aria-label="Digite seu peso atual" />
       </div>
       <div class="input-group">
         <label for="altura" id="label-altura" data-i18n="altura">Altura (cm):</label>
-        <input type="number" id="altura" required aria-label="Digite sua altura em centímetros" />
+        <input type="number" id="altura" required aria-label="Digite sua altura" />
       </div>
       <div class="input-group">
         <label for="meta-peso" data-i18n="meta">Meta de Peso (kg):</label>
@@ -80,18 +89,18 @@
 
     <div id="resultado" class="resultado" aria-live="polite"></div>
 
-    <section class="grafico-section">
+    <section class="grafico-section" aria-label="Gráfico de evolução do IMC">
       <h2><i class="fas fa-chart-line"></i> Evolução do IMC</h2>
       <canvas id="graficoIMC" width="400" height="180"></canvas>
     </section>
 
-    <section class="recomendacoes">
+    <section class="recomendacoes" aria-label="Recomendações personalizadas">
       <h2 data-i18n="recomendacoes"><i class="fas fa-lightbulb"></i> Recomendações Personalizadas</h2>
       <div id="dieta"></div>
       <div id="exercicio"></div>
     </section>
 
-    <section class="faixa-imc">
+    <section class="faixa-imc" aria-label="Tabela de faixas de IMC">
       <h2 data-i18n="faixas"><i class="fas fa-list"></i> Faixas de IMC</h2>
       <table>
         <thead>
@@ -109,7 +118,7 @@
       </table>
     </section>
 
-    <section class="historico-section">
+    <section class="historico-section" aria-label="Histórico de IMC calculado">
       <h2 data-i18n="historico"><i class="fas fa-history"></i> Histórico de Cálculos</h2>
       <table id="historico">
         <thead>
@@ -125,7 +134,7 @@
       <button id="limpar-historico" data-i18n="limpar"><i class="fas fa-trash"></i> Limpar Histórico</button>
     </section>
 
-    <section class="lembretes-section">
+    <section class="lembretes-section" aria-label="Seção de lembretes">
       <h2 data-i18n="lembretes"><i class="fas fa-bell"></i> Lembretes Personalizados</h2>
       <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
       <input type="text" id="lembrete" aria-label="Digite um novo lembrete" />
@@ -133,7 +142,7 @@
       <ul id="lista-lembretes"></ul>
     </section>
   </main>
-  <script defer src="scripts.js"></script>
+  <script defer type="module" src="scripts.js"></script>
 </body>
 
 </html>
