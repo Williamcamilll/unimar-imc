@@ -1,6 +1,3 @@
-// ===============================
-//        CONFIGURAÇÕES INICIAIS
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   aplicarEventos();
   carregarPerfil();
@@ -48,13 +45,18 @@ function calcularIMC(e) {
   altura /= 100;
 
   if (!peso || !altura || peso <= 0 || altura <= 0) {
-    return mostrarResultado("Insira valores válidos para peso e altura.", "");
+    return exibirErro("Por favor, preencha peso e altura com valores positivos.");
+  }
+
+  if (peso < 10 || peso > 400 || altura * 100 < 50 || altura * 100 > 280) {
+    return exibirErro("Esses valores não parecem reais. Verifique o peso ou a altura.");
   }
 
   const imc = (peso / (altura ** 2)).toFixed(2);
   const { mensagem, dieta, exercicio, classeIMC } = gerarRecomendacoes(imc);
 
   let resultadoTexto = `IMC: ${imc} - ${mensagem}`;
+
   if (!isNaN(metaPeso) && metaPeso > 0) {
     const diferenca = (peso - metaPeso).toFixed(1);
     resultadoTexto += diferenca === "0.0" ? " | Você já atingiu sua meta de peso!"
@@ -80,6 +82,17 @@ function calcularIMC(e) {
   salvarHistorico(peso, altura * 100, imc);
   renderizarHistorico();
   atualizarGraficoIMC();
+}
+
+function exibirErro(mensagem) {
+  const resultadoEl = document.getElementById("resultado");
+  resultadoEl.textContent = mensagem;
+  resultadoEl.className = "erro-animacao";
+  resultadoEl.setAttribute("aria-live", "assertive");
+
+  setTimeout(() => {
+    resultadoEl.classList.remove("erro-animacao");
+  }, 1000);
 }
 
 function mostrarResultado(texto, classe) {
@@ -279,3 +292,4 @@ function traduzirInterface(idioma) {
     if (traducoes[idioma][chave]) el.textContent = traducoes[idioma][chave];
   });
 }
+
