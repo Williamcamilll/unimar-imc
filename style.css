@@ -1,15 +1,17 @@
+/* ============================
+   VARIÁVEIS DE TEMA (LIGHT/DARK)
+   ============================ */
 :root {
-  /* Cores baseadas na identidade visual da Unimar */
-  --cor-primaria: #001e61; /* Azul escuro Unimar */
-  --cor-secundaria: #0072ce; /* Azul médio Unimar */
-  --cor-destaque: #00aaff; /* Azul claro para interações */
-  --cor-fundo: #f8f9fc;
+  --cor-primaria: #001e61;
+  --cor-secundaria: #0072ce;
+  --cor-destaque: #00aaff;
+  --cor-fundo: #f0f2f5;
   --cor-card: #ffffff;
-  --cor-texto: #1c1c1c;
-  --cor-texto-claro: #f5f5f5;
-  --borda: #dde3ec;
-  --sombra: rgba(0, 0, 0, 0.06);
-  --radius: 18px;
+  --cor-texto: #1a1a1a;
+  --cor-texto-claro: #ffffff;
+  --borda: #cccccc;
+  --sombra: rgba(0, 0, 0, 0.08);
+  --radius: 16px;
 
   --imc-baixo: #ffc107;
   --imc-normal: #28a745;
@@ -17,24 +19,24 @@
   --imc-obesidade: #dc3545;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --cor-fundo: #121212;
-    --cor-card: #1e1e1e;
-    --cor-texto: #eeeeee;
-    --borda: #444;
-  }
+:root[data-tema="dark"] {
+  --cor-fundo: #1e1e1e;
+  --cor-card: #2a2a2a;
+  --cor-texto: #f0f0f0;
+  --borda: #555;
 }
 
+/* ============================
+   RESET GERAL E TIPOGRAFIA
+   ============================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--cor-fundo);
   color: var(--cor-texto);
   display: flex;
@@ -44,24 +46,17 @@ body {
   padding: 1rem;
 }
 
+/* ============================
+   CONTAINER PRINCIPAL
+   ============================ */
 .container {
   width: 100%;
-  max-width: 840px;
+  max-width: 960px;
   background-color: var(--cor-card);
   padding: 2rem;
   border-radius: var(--radius);
   box-shadow: 0 10px 30px var(--sombra);
-  animation: flutuar 6s ease-in-out infinite;
-  transition: transform 0.3s;
-}
-
-@keyframes flutuar {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+  transition: background-color 0.3s ease;
 }
 
 header {
@@ -78,57 +73,63 @@ h1 {
 .subtitle {
   font-size: 1rem;
   color: var(--cor-secundaria);
-  font-weight: 500;
 }
 
+/* ============================
+   GRUPOS DE INPUT
+   ============================ */
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   display: flex;
   flex-direction: column;
 }
 
 .input-group label {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--cor-primaria);
 }
 
 .input-group input,
 .input-group select {
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 1rem;
   border-radius: var(--radius);
   border: 1px solid var(--borda);
   font-size: 1rem;
-  background: #fefefe;
-  transition: all 0.3s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-group input:focus,
 .input-group select:focus {
   border-color: var(--cor-secundaria);
-  box-shadow: 0 0 8px rgba(0, 114, 206, 0.2);
   outline: none;
+  box-shadow: 0 0 8px rgba(0, 114, 206, 0.2);
 }
 
 button {
-  padding: 0.9rem 1.5rem;
-  background: var(--cor-primaria);
+  padding: 0.9rem 1.4rem;
+  background-color: var(--cor-primaria);
   color: var(--cor-texto-claro);
+  font-weight: 600;
   font-size: 1rem;
-  font-weight: bold;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 5px 15px rgba(0, 30, 97, 0.25);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 30, 97, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 button:hover {
-  background: var(--cor-destaque);
-  transform: scale(1.03);
+  background-color: var(--cor-destaque);
+  transform: scale(1.02);
 }
 
+/* ============================
+   RESULTADO, TABELAS E SEÇÕES
+   ============================ */
 #resultado {
   margin-top: 1.5rem;
   font-size: 1.25rem;
@@ -145,11 +146,14 @@ section {
 }
 
 section h2 {
-  font-size: 1.2rem;
-  color: var(--cor-primaria);
   margin-bottom: 1rem;
+  color: var(--cor-primaria);
+  font-size: 1.3rem;
   border-bottom: 2px solid var(--borda);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 table {
@@ -159,7 +163,7 @@ table {
 }
 
 th, td {
-  padding: 0.85rem 1rem;
+  padding: 0.75rem 1rem;
   text-align: left;
   border-bottom: 1px solid var(--borda);
   font-size: 0.95rem;
@@ -170,36 +174,45 @@ th {
   color: white;
 }
 
+/* ============================
+   LISTA DE LEMBRETES
+   ============================ */
 #lista-lembretes li {
-  background-color: #f1f5fa;
-  margin: 0.6rem 0;
-  padding: 0.6rem 1rem;
+  background: #eef2f7;
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
   border-radius: var(--radius);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 #lista-lembretes button {
-  background: none;
+  background-color: transparent;
   color: var(--imc-obesidade);
   border: none;
   font-weight: bold;
   cursor: pointer;
+  font-size: 0.9rem;
   transition: color 0.2s;
 }
 
 #lista-lembretes button:hover {
-  color: var(--cor-primaria);
+  color: #000;
 }
 
+/* ============================
+   CORES DAS CLASSES DE IMC
+   ============================ */
 .imc-baixo { color: var(--imc-baixo); }
 .imc-normal { color: var(--imc-normal); }
 .imc-sobrepeso { color: var(--imc-sobrepeso); }
 .imc-obesidade { color: var(--imc-obesidade); }
 
-/* Responsividade Mobile */
+/* ============================
+   RESPONSIVIDADE
+   ============================ */
 @media (max-width: 768px) {
   .container {
     padding: 1.5rem;
@@ -209,19 +222,9 @@ th {
     font-size: 1.6rem;
   }
 
-  .input-group input,
-  .input-group select,
   button {
     font-size: 0.95rem;
-  }
-
-  button {
     padding: 0.75rem 1.2rem;
-  }
-
-  #resultado {
-    font-size: 1.1rem;
-    padding: 0.8rem;
   }
 }
 
@@ -234,14 +237,8 @@ th {
     font-size: 1.4rem;
   }
 
-  .subtitle {
-    font-size: 0.95rem;
-  }
-
-  .input-group label,
   .input-group input,
-  .input-group select,
-  button {
+  .input-group select {
     font-size: 0.9rem;
   }
 
