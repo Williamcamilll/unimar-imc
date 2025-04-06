@@ -8,9 +8,7 @@
   <title>IMC | Unimar</title>
 
   <!-- Ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-yH6V9kpprxrkDCiIE+qEc8L6jvQ1FnwKfXecB+x8+FZIfUydexzoyCezNdHZ0wWREfoPqfzzukfj5PFDvuGDuA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- Estilo principal -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -34,6 +32,10 @@
           <option value="metric">Métrico (kg/cm)</option>
           <option value="imperial">Imperial (lb/in)</option>
         </select>
+      </div>
+
+      <div class="input-group">
+        <button id="toggle-tema" aria-label="Alternar tema"><i class="fas fa-adjust"></i> Tema</button>
       </div>
     </header>
 
@@ -75,7 +77,7 @@
       <button type="submit" data-i18n="calcular"><i class="fas fa-calculator"></i> Calcular IMC</button>
     </form>
 
-    <div id="resultado" class="resultado"></div>
+    <div id="resultado" class="resultado" aria-live="polite"></div>
 
     <section class="recomendacoes">
       <h2 data-i18n="recomendacoes"><i class="fas fa-lightbulb"></i> Recomendações Personalizadas</h2>
@@ -125,9 +127,7 @@
       <ul id="lista-lembretes"></ul>
     </section>
   </main>
-
-  <!-- Scripts -->
-  <script src="scripts.js"></script>
+  <script defer src="scripts.js"></script>
 </body>
 
 </html>
