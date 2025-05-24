@@ -3,193 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Calculadora de IMC com gráfico, histórico, recomendações, clima, pomodoro e backup.">
-  <meta name="author" content="William Camilo">
-  <meta name="theme-color" content="#0072ce">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <title>Calculadora de IMC | Unimar Saúde</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0072ce">
 </head>
 <body>
 
-  <!-- Splash Screen -->
-  <div id="splash">Carregando...</div>
+<div id="splash">Carregando...</div>
 
-  <div class="container">
-    <header>
-      <h1 data-i18n="titulo">Calculadora de IMC</h1>
-      <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
+<div class="container">
+  <!-- Cabeçalho com status -->
+  <header>
+    <h1 data-i18n="titulo">Calculadora de IMC</h1>
+    <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
 
-      <div class="top-bar">
-        <div id="horario-brasilia">🕒</div>
-        <div id="status-conexao">🟢 Online</div>
-        <button id="toggle-tema" aria-label="Alternar tema">🌙 / ☀️</button>
-      </div>
+    <div class="top-bar">
+      <div id="horario-brasilia">🕒 Brasília</div>
+      <div id="status-conexao">🟢 Online</div>
+      <div id="clima-info">☁️ Clima</div>
+    </div>
 
-      <div class="input-group">
-        <label for="idioma" data-i18n="idioma">Idioma:</label>
-        <select id="idioma">
-          <option value="pt">Português</option>
-          <option value="en">English</option>
-          <option value="es">Español</option>
-          <option value="zh">中文</option>
-        </select>
-      </div>
+    <div class="input-group">
+      <label for="idioma" data-i18n="idioma">Idioma:</label>
+      <select id="idioma">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="zh">中文</option>
+      </select>
+    </div>
 
-      <div class="input-group">
-        <label for="unidade" data-i18n="unidade">Unidade:</label>
-        <select id="unidade">
-          <option value="metric">Métrico (kg/cm)</option>
-          <option value="imperial">Imperial (lb/in)</option>
-        </select>
-      </div>
-    </header>
+    <div class="input-group">
+      <label for="unidade" data-i18n="unidade">Unidade:</label>
+      <select id="unidade">
+        <option value="metric">Métrico (kg/cm)</option>
+        <option value="imperial">Imperial (lb/in)</option>
+      </select>
+    </div>
 
-    <!-- PERFIL -->
-    <section class="perfil-usuario">
-      <h2 data-i18n="perfil">Perfil do Usuário 👤</h2>
-      <div class="input-group">
-        <label for="nome" data-i18n="nome">Nome:</label>
-        <input type="text" id="nome">
-      </div>
-      <div class="input-group">
-        <label for="idade" data-i18n="idade">Idade:</label>
-        <input type="number" id="idade">
-      </div>
-      <div class="input-group">
-        <label for="sexo" data-i18n="sexo">Sexo:</label>
-        <select id="sexo">
-          <option value="">Selecione</option>
-          <option value="masculino">Masculino</option>
-          <option value="feminino">Feminino</option>
-          <option value="outro">Outro</option>
-        </select>
-      </div>
-      <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
-    </section>
+    <button id="toggle-tema">🌗 Mudar Tema</button>
+  </header>
 
-    <!-- CÁLCULO IMC -->
-    <form id="form-imc">
-      <h2>⚖️ <span data-i18n="calcular">Calcular IMC</span></h2>
-      <div class="input-group">
-        <label for="peso" data-i18n="peso">Peso:</label>
-        <input type="number" id="peso" required>
-      </div>
-      <div class="input-group">
-        <label for="altura" data-i18n="altura">Altura:</label>
-        <input type="number" id="altura" required>
-      </div>
-      <div class="input-group">
-        <label for="meta-peso" data-i18n="meta">Meta de Peso:</label>
-        <input type="number" id="meta-peso">
-      </div>
-      <button type="submit" data-i18n="calcular">Calcular</button>
-    </form>
+  <!-- Perfil -->
+  <section class="perfil-usuario">
+    <h2 data-i18n="perfil">Perfil do Usuário</h2>
+    <div class="input-group">
+      <label for="nome" data-i18n="nome">Nome:</label>
+      <input type="text" id="nome">
+    </div>
+    <div class="input-group">
+      <label for="idade" data-i18n="idade">Idade:</label>
+      <input type="number" id="idade">
+    </div>
+    <div class="input-group">
+      <label for="sexo" data-i18n="sexo">Sexo:</label>
+      <select id="sexo">
+        <option value="">Selecione</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+    <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
+  </section>
 
-    <div id="resultado" class="resultado" aria-live="polite"></div>
+  <!-- Cálculo de IMC -->
+  <form id="form-imc">
+    <h2 data-i18n="calcular">Calcular IMC</h2>
+    <div class="input-group">
+      <label for="peso" data-i18n="peso">Peso:</label>
+      <input type="number" id="peso" required>
+    </div>
+    <div class="input-group">
+      <label for="altura" data-i18n="altura">Altura:</label>
+      <input type="number" id="altura" required>
+    </div>
+    <div class="input-group">
+      <label for="meta-peso" data-i18n="meta">Meta de Peso:</label>
+      <input type="number" id="meta-peso">
+    </div>
+    <button type="submit" data-i18n="calcular">Calcular IMC</button>
+  </form>
 
-    <!-- RECOMENDAÇÕES -->
-    <section class="recomendacoes">
-      <h2 data-i18n="recomendacoes">🍎 Recomendações Personalizadas</h2>
-      <div id="dieta"></div>
-      <div id="exercicio"></div>
-      <p><a href="https://www.handtalk.me/br/" target="_blank" rel="noopener">Tradução em Libras</a></p>
-    </section>
+  <!-- Resultado -->
+  <div id="resultado" class="resultado" aria-live="polite"></div>
 
-    <!-- TABELA DE IMC -->
-    <section class="faixa-imc">
-      <h2 data-i18n="faixas">📊 Faixas de IMC</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>IMC</th>
-            <th data-i18n="classificacao">Classificação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>&lt; 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
-          <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
-          <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
-          <tr><td>&gt;= 30.0</td><td data-i18n="obesidade">Obesidade</td></tr>
-        </tbody>
-      </table>
-    </section>
+  <!-- Recomendações -->
+  <section class="recomendacoes">
+    <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
+    <div id="dieta"></div>
+    <div id="exercicio"></div>
+  </section>
 
-    <!-- HISTÓRICO -->
-    <section class="historico-section">
-      <h2 data-i18n="historico">🗂️ Histórico de Cálculos</h2>
-      <table id="historico">
-        <thead>
-          <tr>
-            <th data-i18n="data">Data</th>
-            <th data-i18n="peso">Peso</th>
-            <th data-i18n="altura">Altura</th>
-            <th>IMC</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
-    </section>
+  <!-- Gráfico -->
+  <section>
+    <h2 data-i18n="grafico">Gráfico de IMC</h2>
+    <canvas id="graficoIMC" height="200"></canvas>
+  </section>
 
-    <!-- LEMBRETES -->
-    <section class="lembretes-section">
-      <h2 data-i18n="lembretes">📝 Lembretes</h2>
-      <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
-      <input type="text" id="lembrete">
-      <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
-      <ul id="lista-lembretes"></ul>
-    </section>
+  <!-- Faixas de IMC -->
+  <section>
+    <h2 data-i18n="faixas">Faixas de IMC</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>IMC</th>
+          <th data-i18n="classificacao">Classificação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Menor que 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
+        <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
+        <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
+        <tr><td>30.0 ou mais</td><td data-i18n="obesidade">Obesidade</td></tr>
+      </tbody>
+    </table>
+  </section>
 
-    <!-- ESTATÍSTICAS -->
-    <section class="estatisticas-section">
-      <h2>📈 Estatísticas</h2>
-      <ul>
-        <li id="stat-calculos">Cálculos realizados: 0</li>
-        <li id="stat-lembretes">Lembretes ativos: 0</li>
-      </ul>
-    </section>
+  <!-- Histórico -->
+  <section>
+    <h2 data-i18n="historico">Histórico de Cálculos</h2>
+    <table id="historico">
+      <thead>
+        <tr>
+          <th data-i18n="data">Data</th>
+          <th data-i18n="peso">Peso</th>
+          <th data-i18n="altura">Altura</th>
+          <th>IMC</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
+  </section>
 
-    <!-- POMODORO -->
-    <section class="pomodoro-section">
-      <h2>⏱️ Pomodoro</h2>
-      <div id="pomodoro-tempo">25:00</div>
-      <button onclick="iniciarPomodoro()">Iniciar</button>
-      <button onclick="pausarPomodoro()">Pausar</button>
-      <button onclick="resetarPomodoro()">Resetar</button>
-    </section>
+  <!-- Lembretes -->
+  <section>
+    <h2 data-i18n="lembretes">Lembretes</h2>
+    <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
+    <input type="text" id="lembrete">
+    <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
+    <ul id="lista-lembretes"></ul>
+  </section>
 
-    <!-- CLIMA -->
-    <section class="clima-section">
-      <h2>🌤️ Clima</h2>
-      <div id="clima-info">Buscando clima...</div>
-    </section>
+  <!-- Estatísticas -->
+  <section class="estatisticas-section">
+    <h2>📊 Estatísticas</h2>
+    <ul>
+      <li id="stat-calculos">Cálculos realizados: 0</li>
+      <li id="stat-lembretes">Lembretes ativos: 0</li>
+    </ul>
+  </section>
 
-    <!-- BACKUP -->
-    <section class="backup-section">
-      <h2>💾 Backup & Restauração</h2>
-      <button onclick="fazerBackup()">Fazer Backup</button>
-      <input type="file" id="importarBackup" accept=".json" onchange="restaurarBackup(this.files[0])">
-    </section>
+  <!-- Pomodoro -->
+  <section class="pomodoro-section">
+    <h2>⏱️ Pomodoro</h2>
+    <div id="pomodoro-tempo">25:00</div>
+    <button onclick="iniciarPomodoro()">▶️ Iniciar</button>
+    <button onclick="pausarPomodoro()">⏸️ Pausar</button>
+    <button onclick="resetarPomodoro()">🔄 Resetar</button>
+  </section>
 
-    <!-- GRÁFICO -->
-    <section class="grafico-section">
-      <h2>📊 Gráfico de IMC</h2>
-      <canvas id="graficoIMC" width="400" height="200"></canvas>
-    </section>
+  <!-- Backup -->
+  <section>
+    <h2>💾 Backup e Restauração</h2>
+    <button onclick="fazerBackup()">📤 Fazer Backup</button>
+    <input type="file" accept=".json" onchange="restaurarBackup(this.files[0])">
+  </section>
 
-    <!-- FOOTER -->
-    <footer>
-      <p>Desenvolvido por William Camilo • Unimar Saúde • 2025</p>
-    </footer>
-  </div>
-
-  <!-- TOAST -->
+  <!-- Toast Container -->
   <div id="toast-container"></div>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="scripts.js"></script>
+  <!-- Rodapé -->
+  <footer>
+    <p>🚀 Desenvolvido por William | Unimar ADS</p>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="scripts.js"></script>
+
 </body>
 </html>
-
