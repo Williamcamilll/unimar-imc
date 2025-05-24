@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Splash Screen -->
   <div id="splash">Carregando...</div>
 
   <div class="container">
     <header>
-      <h1>Calculadora de IMC</h1>
-      <p class="subtitle">Projeto Engenharia de Software - ADS | Unimar</p>
+      <h1 data-i18n="titulo">Calculadora de IMC</h1>
+      <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
 
       <div class="top-bar">
         <div id="horario-brasilia">🕒</div>
@@ -21,7 +23,7 @@
       </div>
 
       <div class="input-group">
-        <label for="idioma">Idioma:</label>
+        <label for="idioma" data-i18n="idioma">Idioma:</label>
         <select id="idioma">
           <option value="pt">Português</option>
           <option value="en">English</option>
@@ -31,7 +33,7 @@
       </div>
 
       <div class="input-group">
-        <label for="unidade">Unidade:</label>
+        <label for="unidade" data-i18n="unidade">Unidade:</label>
         <select id="unidade">
           <option value="metric">Métrico (kg/cm)</option>
           <option value="imperial">Imperial (lb/in)</option>
@@ -40,99 +42,97 @@
     </header>
 
     <section class="perfil-usuario">
-      <h2>Perfil do Usuário 👤</h2>
+      <h2 data-i18n="perfil">Perfil do Usuário 👤</h2>
       <div class="input-group">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" aria-label="Digite seu nome">
+        <label for="nome" data-i18n="nome">Nome:</label>
+        <input type="text" id="nome">
       </div>
       <div class="input-group">
-        <label for="idade">Idade:</label>
-        <input type="number" id="idade" aria-label="Digite sua idade">
+        <label for="idade" data-i18n="idade">Idade:</label>
+        <input type="number" id="idade">
       </div>
       <div class="input-group">
-        <label for="sexo">Sexo:</label>
-        <select id="sexo" aria-label="Selecione seu sexo">
+        <label for="sexo" data-i18n="sexo">Sexo:</label>
+        <select id="sexo">
           <option value="">Selecione</option>
           <option value="masculino">Masculino</option>
           <option value="feminino">Feminino</option>
           <option value="outro">Outro</option>
         </select>
       </div>
-      <button id="salvar-perfil">Salvar Perfil</button>
+      <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
     </section>
 
-    <form id="form-imc" aria-label="Formulário de cálculo de IMC">
-      <h2>Calcular IMC ⚖️</h2>
+    <form id="form-imc">
+      <h2>⚖️ <span data-i18n="calcular">Calcular IMC</span></h2>
       <div class="input-group">
-        <label for="peso">Peso:</label>
+        <label for="peso" data-i18n="peso">Peso:</label>
         <input type="number" id="peso" required>
       </div>
       <div class="input-group">
-        <label for="altura">Altura:</label>
+        <label for="altura" data-i18n="altura">Altura:</label>
         <input type="number" id="altura" required>
       </div>
       <div class="input-group">
-        <label for="meta-peso">Meta de Peso:</label>
+        <label for="meta-peso" data-i18n="meta">Meta de Peso:</label>
         <input type="number" id="meta-peso">
       </div>
-      <button type="submit">Calcular</button>
+      <button type="submit" data-i18n="calcular">Calcular</button>
     </form>
 
     <div id="resultado" class="resultado" aria-live="polite"></div>
 
     <section class="recomendacoes">
-      <h2>Recomendações Personalizadas 🍎🏋️</h2>
-      <div id="dieta" aria-label="Dieta sugerida"></div>
-      <div id="exercicio" aria-label="Exercício sugerido"></div>
-      <p class="libras-info">
-        <a href="https://www.handtalk.me/br/" target="_blank">Clique aqui para ativar tradução em Libras</a>
-      </p>
+      <h2 data-i18n="recomendacoes">🍎 Recomendações Personalizadas</h2>
+      <div id="dieta"></div>
+      <div id="exercicio"></div>
+      <p><a href="https://www.handtalk.me/br/" target="_blank">Tradução em Libras</a></p>
     </section>
 
     <section class="faixa-imc">
-      <h2>Faixas de IMC 📊</h2>
+      <h2 data-i18n="faixas">📊 Faixas de IMC</h2>
       <table>
         <thead>
           <tr>
             <th>IMC</th>
-            <th>Classificação</th>
+            <th data-i18n="classificacao">Classificação</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Menor que 18.5</td><td>Abaixo do peso</td></tr>
-          <tr><td>18.5 - 24.9</td><td>Peso normal</td></tr>
-          <tr><td>25.0 - 29.9</td><td>Sobrepeso</td></tr>
-          <tr><td>30.0 ou mais</td><td>Obesidade</td></tr>
+          <tr><td>Menor que 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
+          <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
+          <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
+          <tr><td>30.0 ou mais</td><td data-i18n="obesidade">Obesidade</td></tr>
         </tbody>
       </table>
     </section>
 
     <section class="historico-section">
-      <h2>Histórico de Cálculos 🗂️</h2>
+      <h2 data-i18n="historico">🗂️ Histórico de Cálculos</h2>
       <table id="historico">
         <thead>
           <tr>
-            <th>Data</th>
-            <th>Peso</th>
-            <th>Altura</th>
+            <th data-i18n="data">Data</th>
+            <th data-i18n="peso">Peso</th>
+            <th data-i18n="altura">Altura</th>
             <th>IMC</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
-      <button id="limpar-historico">Limpar Histórico</button>
+      <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
     </section>
 
     <section class="lembretes-section">
-      <h2>Lembretes 📝</h2>
-      <label for="lembrete">Escreva um lembrete:</label>
+      <h2 data-i18n="lembretes">📝 Lembretes</h2>
+      <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
       <input type="text" id="lembrete">
-      <button id="salvar-lembrete">Salvar Lembrete</button>
+      <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
       <ul id="lista-lembretes"></ul>
     </section>
 
     <section class="estatisticas-section">
-      <h2>Estatísticas 📈</h2>
+      <h2>📈 Estatísticas</h2>
       <ul>
         <li id="stat-calculos">Cálculos realizados: 0</li>
         <li id="stat-lembretes">Lembretes ativos: 0</li>
@@ -140,7 +140,7 @@
     </section>
 
     <section class="pomodoro-section">
-      <h2>Pomodoro ⏱️</h2>
+      <h2>⏱️ Pomodoro</h2>
       <div id="pomodoro-tempo">25:00</div>
       <button onclick="iniciarPomodoro()">Iniciar</button>
       <button onclick="pausarPomodoro()">Pausar</button>
@@ -148,14 +148,19 @@
     </section>
 
     <section class="clima-section">
-      <h2>Clima 🌤️</h2>
+      <h2>🌤️ Clima</h2>
       <div id="clima-info">Buscando clima...</div>
     </section>
 
     <section class="backup-section">
-      <h2>Backup & Restauração 💾</h2>
+      <h2>💾 Backup & Restauração</h2>
       <button onclick="fazerBackup()">Fazer Backup</button>
       <input type="file" id="importarBackup" accept=".json" onchange="restaurarBackup(this.files[0])">
+    </section>
+
+    <section class="grafico-section">
+      <h2>📊 Gráfico de IMC</h2>
+      <canvas id="graficoIMC" width="400" height="200"></canvas>
     </section>
 
     <footer>
@@ -164,6 +169,8 @@
   </div>
 
   <div id="toast-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="scripts.js"></script>
 </body>
 </html>
+
