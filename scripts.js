@@ -1,6 +1,3 @@
-// ===============================
-//           INICIALIZAÇÃO
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("splash").style.display = "none";
   aplicarEventos();
@@ -27,14 +24,13 @@ function aplicarEventos() {
   document.getElementById("limpar-historico").addEventListener("click", limparHistorico);
   document.getElementById("toggle-tema").addEventListener("click", alternarTema);
   document.getElementById("idioma").addEventListener("change", e => {
-    const idioma = e.target.value;
-    localStorage.setItem("idiomaSelecionado", idioma);
-    traduzirInterface(idioma);
+    localStorage.setItem("idiomaSelecionado", e.target.value);
+    traduzirInterface(e.target.value);
   });
 }
 
 // ===============================
-//           TEMPO E STATUS
+//        RELÓGIO E STATUS
 // ===============================
 function atualizarRelogio() {
   setInterval(() => {
@@ -54,7 +50,7 @@ function monitorarConexao() {
 }
 
 // ===============================
-//           CLIMA
+//          CLIMA
 // ===============================
 function buscarClimaAtual() {
   const climaInfo = document.getElementById("clima-info");
@@ -68,7 +64,7 @@ function buscarClimaAtual() {
 }
 
 // ===============================
-//           DARK MODE
+//         DARK MODE
 // ===============================
 function aplicarTemaSalvo() {
   const tema = localStorage.getItem("temaIMC") || "light";
@@ -84,7 +80,7 @@ function alternarTema() {
 }
 
 // ===============================
-//           BACKUP
+//         BACKUP
 // ===============================
 function fazerBackup() {
   const dados = {
@@ -120,7 +116,7 @@ function restaurarBackup(arquivo) {
 }
 
 // ===============================
-//           TOAST
+//         TOASTS
 // ===============================
 function exibirToast(mensagem, erro = false) {
   const container = document.getElementById("toast-container");
@@ -131,12 +127,11 @@ function exibirToast(mensagem, erro = false) {
   if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
   setTimeout(() => container.removeChild(toast), 4000);
 }
-
 // ===============================
-//           CÁLCULO IMC
+//     CÁLCULO DE IMC + INCENTIVOS
 // ===============================
 function atualizarUnidade() {
-  const unidade = this.value;
+  const unidade = document.getElementById("unidade").value;
   document.getElementById("peso").placeholder = unidade === "imperial" ? "Peso (lb)" : "Peso (kg)";
   document.getElementById("altura").placeholder = unidade === "imperial" ? "Altura (in)" : "Altura (cm)";
 }
@@ -167,6 +162,22 @@ function calcularIMC(e) {
   document.getElementById("dieta").textContent = resultado.dieta;
   document.getElementById("exercicio").textContent = resultado.exercicio;
 
+  // 🎯 Incentivos aleatórios
+  const incentivos = [
+    "🔥 Você é incrível, continue assim!",
+    "💪 Um dia de cada vez, foco total!",
+    "🚀 Bora pra cima, sua saúde agradece!",
+    "🎯 Você está cuidando do que importa!",
+    "✨ Cada passo conta, não desista!",
+    "🏆 Saúde é o verdadeiro prêmio.",
+    "🌟 Orgulhe-se do seu progresso!",
+    "🌈 O futuro te agradece pelas escolhas de hoje!",
+    "🔥 Corpo são, mente sã. Continue firme!",
+    "💥 Você já está fazendo mais que a maioria!"
+  ];
+  const incentivo = incentivos[Math.floor(Math.random() * incentivos.length)];
+  exibirToast(incentivo);
+
   salvarHistorico(peso, altura * 100, imc);
   renderizarHistorico();
   atualizarEstatisticas();
@@ -181,14 +192,14 @@ function classificarIMC(imc) {
 }
 
 // ===============================
-//           PERFIL & HISTÓRICO
+//     PERFIL, HISTÓRICO, LEMBRETES
 // ===============================
 function salvarPerfil() {
   const nome = document.getElementById("nome").value.trim();
   const idade = document.getElementById("idade").value.trim();
   const sexo = document.getElementById("sexo").value;
   localStorage.setItem("perfilUsuarioIMC", JSON.stringify({ nome, idade, sexo }));
-  exibirToast("Perfil salvo!");
+  exibirToast("✅ Perfil salvo!");
 }
 
 function carregarPerfil() {
@@ -226,9 +237,6 @@ function limparHistorico() {
   }
 }
 
-// ===============================
-//           LEMBRETES
-// ===============================
 function salvarLembrete() {
   const lembrete = document.getElementById("lembrete").value.trim();
   if (!lembrete) return;
@@ -259,9 +267,8 @@ function renderizarLembretes() {
     lista.appendChild(li);
   });
 }
-
 // ===============================
-//           ESTATÍSTICAS
+//       ESTATÍSTICAS
 // ===============================
 function atualizarEstatisticas() {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
@@ -271,7 +278,7 @@ function atualizarEstatisticas() {
 }
 
 // ===============================
-//           GRÁFICO
+//       GRÁFICO DE IMC
 // ===============================
 function atualizarGraficoIMC() {
   const historico = JSON.parse(localStorage.getItem("historicoIMC")) || [];
@@ -306,7 +313,46 @@ function atualizarGraficoIMC() {
 }
 
 // ===============================
-//           IDIOMA (TRADUTOR INTERNO)
+//         POMODORO TIMER
+// ===============================
+let pomodoroTempo = 1500;
+let pomodoroIntervalo = null;
+
+function iniciarPomodoro() {
+  if (!pomodoroIntervalo) {
+    pomodoroIntervalo = setInterval(() => {
+      if (pomodoroTempo > 0) {
+        pomodoroTempo--;
+        atualizarTempoPomodoro();
+      } else {
+        clearInterval(pomodoroIntervalo);
+        pomodoroIntervalo = null;
+        exibirToast("⏰ Pomodoro finalizado! Faça uma pausa. ☕");
+      }
+    }, 1000);
+  }
+}
+
+function pausarPomodoro() {
+  clearInterval(pomodoroIntervalo);
+  pomodoroIntervalo = null;
+}
+
+function resetarPomodoro() {
+  pomodoroTempo = 1500;
+  atualizarTempoPomodoro();
+  clearInterval(pomodoroIntervalo);
+  pomodoroIntervalo = null;
+}
+
+function atualizarTempoPomodoro() {
+  const minutos = String(Math.floor(pomodoroTempo / 60)).padStart(2, '0');
+  const segundos = String(pomodoroTempo % 60).padStart(2, '0');
+  document.getElementById("pomodoro-tempo").textContent = `${minutos}:${segundos}`;
+}
+
+// ===============================
+//       TRADUTOR INTERNO
 // ===============================
 function aplicarIdiomaSalvo() {
   const idioma = localStorage.getItem("idiomaSelecionado") || "pt";
@@ -316,10 +362,56 @@ function aplicarIdiomaSalvo() {
 
 function traduzirInterface(idioma) {
   const traducoes = {
-    pt: { titulo: "Calculadora de IMC", subtitulo: "Projeto Engenharia de Software - ADS | Unimar", perfil: "Perfil do Usuário", nome: "Nome:", idade: "Idade:", sexo: "Sexo:", salvarPerfil: "Salvar Perfil", peso: "Peso:", altura: "Altura:", meta: "Meta de Peso:", calcular: "Calcular IMC", recomendacoes: "Recomendações Personalizadas", faixas: "Faixas de IMC", classificacao: "Classificação", abaixo: "Abaixo do peso", normal: "Peso normal", sobrepeso: "Sobrepeso", obesidade: "Obesidade", historico: "Histórico de Cálculos", data: "Data", limpar: "Limpar Histórico", lembretes: "Lembretes", escreva: "Escreva um lembrete:", salvarLembrete: "Salvar Lembrete" },
-    en: { titulo: "BMI Calculator", subtitulo: "Software Engineering Project - ADS | Unimar", perfil: "User Profile", nome: "Name:", idade: "Age:", sexo: "Gender:", salvarPerfil: "Save Profile", peso: "Weight:", altura: "Height:", meta: "Weight Goal:", calcular: "Calculate BMI", recomendacoes: "Personalized Recommendations", faixas: "BMI Ranges", classificacao: "Classification", abaixo: "Underweight", normal: "Normal weight", sobrepeso: "Overweight", obesidade: "Obesity", historico: "Calculation History", data: "Date", limpar: "Clear History", lembretes: "Reminders", escreva: "Write a reminder:", salvarLembrete: "Save Reminder" },
-    es: { titulo: "Calculadora de IMC", subtitulo: "Proyecto de Ingeniería de Software - ADS | Unimar", perfil: "Perfil del Usuario", nome: "Nombre:", idade: "Edad:", sexo: "Sexo:", salvarPerfil: "Guardar Perfil", peso: "Peso:", altura: "Altura:", meta: "Meta de Peso:", calcular: "Calcular IMC", recomendacoes: "Recomendaciones Personalizadas", faixas: "Rangos de IMC", classificacao: "Clasificación", abaixo: "Bajo peso", normal: "Peso normal", sobrepeso: "Sobrepeso", obesidade: "Obesidad", historico: "Historial de Cálculos", data: "Fecha", limpar: "Limpiar Historial", lembretes: "Recordatorios", escreva: "Escribe un recordatorio:", salvarLembrete: "Guardar Recordatorio" },
-    zh: { titulo: "BMI计算器", subtitulo: "软件工程项目 - ADS | Unimar", perfil: "用户资料", nome: "姓名:", idade: "年龄:", sexo: "性别:", salvarPerfil: "保存资料", peso: "体重:", altura: "身高:", meta: "目标体重:", calcular: "计算BMI", recomendacoes: "个性化建议", faixas: "BMI范围", classificacao: "分类", abaixo: "体重过轻", normal: "正常体重", sobrepeso: "超重", obesidade: "肥胖", historico: "计算历史", data: "日期", limpar: "清除历史", lembretes: "提醒事项", escreva: "写下一个提醒:", salvarLembrete: "保存提醒" }
+    pt: {
+      titulo: "Calculadora de IMC",
+      subtitulo: "Projeto Engenharia de Software - ADS | Unimar",
+      perfil: "Perfil do Usuário",
+      nome: "Nome:", idade: "Idade:", sexo: "Sexo:", salvarPerfil: "Salvar Perfil",
+      peso: "Peso:", altura: "Altura:", meta: "Meta de Peso:",
+      calcular: "Calcular IMC", recomendacoes: "Recomendações Personalizadas",
+      faixas: "Faixas de IMC", classificacao: "Classificação",
+      abaixo: "Abaixo do peso", normal: "Peso normal",
+      sobrepeso: "Sobrepeso", obesidade: "Obesidade",
+      historico: "Histórico de Cálculos", data: "Data", limpar: "Limpar Histórico",
+      lembretes: "Lembretes", escreva: "Escreva um lembrete:", salvarLembrete: "Salvar Lembrete",
+      clima: "Clima", grafico: "Gráfico de IMC", backup: "Backup e Restauração"
+    },
+    en: {
+      titulo: "BMI Calculator", subtitulo: "Software Engineering Project - ADS | Unimar",
+      perfil: "User Profile", nome: "Name:", idade: "Age:", sexo: "Gender:", salvarPerfil: "Save Profile",
+      peso: "Weight:", altura: "Height:", meta: "Weight Goal:",
+      calcular: "Calculate BMI", recomendacoes: "Personalized Recommendations",
+      faixas: "BMI Ranges", classificacao: "Classification",
+      abaixo: "Underweight", normal: "Normal weight",
+      sobrepeso: "Overweight", obesidade: "Obesity",
+      historico: "Calculation History", data: "Date", limpar: "Clear History",
+      lembretes: "Reminders", escreva: "Write a reminder:", salvarLembrete: "Save Reminder",
+      clima: "Weather", grafico: "BMI Chart", backup: "Backup and Restore"
+    },
+    es: {
+      titulo: "Calculadora de IMC", subtitulo: "Proyecto de Ingeniería de Software - ADS | Unimar",
+      perfil: "Perfil del Usuario", nome: "Nombre:", idade: "Edad:", sexo: "Sexo:", salvarPerfil: "Guardar Perfil",
+      peso: "Peso:", altura: "Altura:", meta: "Meta de Peso:",
+      calcular: "Calcular IMC", recomendacoes: "Recomendaciones Personalizadas",
+      faixas: "Rangos de IMC", classificacao: "Clasificación",
+      abaixo: "Bajo peso", normal: "Peso normal",
+      sobrepeso: "Sobrepeso", obesidade: "Obesidad",
+      historico: "Historial de Cálculos", data: "Fecha", limpar: "Limpiar Historial",
+      lembretes: "Recordatorios", escreva: "Escribe un recordatorio:", salvarLembrete: "Guardar Recordatorio",
+      clima: "Clima", grafico: "Gráfico de IMC", backup: "Backup y Restauración"
+    },
+    zh: {
+      titulo: "BMI计算器", subtitulo: "软件工程项目 - ADS | Unimar",
+      perfil: "用户资料", nome: "姓名:", idade: "年龄:", sexo: "性别:", salvarPerfil: "保存资料",
+      peso: "体重:", altura: "身高:", meta: "目标体重:",
+      calcular: "计算BMI", recomendacoes: "个性化建议",
+      faixas: "BMI范围", classificacao: "分类",
+      abaixo: "体重过轻", normal: "正常体重",
+      sobrepeso: "超重", obesidade: "肥胖",
+      historico: "计算历史", data: "日期", limpar: "清除历史",
+      lembretes: "提醒事项", escreva: "写下一个提醒:", salvarLembrete: "保存提醒",
+      clima: "天气", grafico: "BMI图表", backup: "备份与恢复"
+    }
   };
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
