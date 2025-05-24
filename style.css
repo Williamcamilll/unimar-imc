@@ -1,11 +1,14 @@
+/* ===============================
+         VARIÁVEIS DE TEMA
+================================ */
 :root {
-  --cor-primaria: #003366;
-  --cor-secundaria: #cccccc;
-  --cor-fundo: #000000;
-  --cor-card: #ffffff;
+  --cor-primaria: #0072ce;
+  --cor-secundaria: #00b4d8;
+  --cor-fundo: #f4f4f4;
+  --cor-card: rgba(255, 255, 255, 0.75);
   --cor-texto: #1a1a1a;
-  --sombra: rgba(0, 0, 0, 0.08);
-  --borda: #cccccc;
+  --borda: rgba(0, 0, 0, 0.1);
+  --sombra: rgba(0, 0, 0, 0.15);
   --radius: 16px;
 
   --imc-baixo: #ffc107;
@@ -15,42 +18,66 @@
 }
 
 [data-tema="dark"] {
-  --cor-fundo: #1e1e1e;
-  --cor-card: #2a2a2a;
+  --cor-fundo: #121212;
+  --cor-card: rgba(30, 30, 30, 0.85);
   --cor-texto: #f0f0f0;
-  --borda: #555;
+  --borda: rgba(255, 255, 255, 0.1);
+  --sombra: rgba(0, 0, 0, 0.5);
 }
 
+/* ===============================
+         RESET
+================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ===============================
+         BODY E CONTAINER
+================================ */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #cccccc;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--cor-fundo);
   color: var(--cor-texto);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
-  flex-direction: column;
+  padding: 1.5rem;
 }
 
 .container {
   width: 100%;
-  max-width: 900px;
-  background-color: var(--cor-card);
-  padding: 2rem;
+  max-width: 1000px;
+  background: var(--cor-card);
+  backdrop-filter: blur(16px) saturate(180%);
   border-radius: var(--radius);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--borda);
+  box-shadow: 0 8px 24px var(--sombra);
+  padding: 2rem;
   animation: fadeInUp 0.6s ease;
-  align-items: center;
-  justify-content: center;
 }
 
+/* ===============================
+         SPLASH SCREEN
+================================ */
+#splash {
+  position: fixed;
+  background: var(--cor-primaria);
+  color: white;
+  font-size: 1.5rem;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* ===============================
+         ANIMAÇÕES
+================================ */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -62,20 +89,40 @@ body {
   }
 }
 
+@keyframes vibrar {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+}
+
+/* ===============================
+         CABEÇALHO
+================================ */
 h1 {
-  font-size: 2rem;
-  color: var(--cor-primaria);
-  margin-bottom: 0.3rem;
+  font-size: 2.2rem;
   text-align: center;
+  background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
-  color: var(--cor-secundaria);
-  font-size: 1rem;
   text-align: center;
+  color: var(--cor-secundaria);
   margin-bottom: 2rem;
 }
 
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* ===============================
+         INPUTS E BOTÕES
+================================ */
 .input-group {
   margin-bottom: 1rem;
   display: flex;
@@ -85,14 +132,15 @@ h1 {
 .input-group label {
   margin-bottom: 0.4rem;
   font-weight: 600;
-  font-size: 0.95rem;
 }
 
 .input-group input,
 .input-group select {
-  padding: 0.65rem;
+  padding: 0.6rem;
   border-radius: var(--radius);
   border: 1px solid var(--borda);
+  background-color: rgba(255,255,255,0.6);
+  color: var(--cor-texto);
   font-size: 1rem;
 }
 
@@ -100,74 +148,75 @@ h1 {
 .input-group select:focus {
   border-color: var(--cor-secundaria);
   outline: none;
-  box-shadow: 0 0 8px rgba(0, 114, 206, 0.2);
+  box-shadow: 0 0 0 2px rgba(0, 178, 255, 0.3);
 }
 
 button {
-  padding: 0.8rem 1.2rem;
-  background-color: var(--cor-primaria);
+  padding: 0.75rem 1.2rem;
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
   color: white;
-  font-weight: 600;
-  font-size: 1rem;
   border: none;
   border-radius: var(--radius);
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  margin-top: 0.5rem;
+  transition: transform 0.3s, background 0.3s;
+  box-shadow: 0 4px 14px var(--sombra);
 }
 
 button:hover {
-  background-color: var(--cor-secundaria);
-  transform: scale(1.02);
+  transform: scale(1.05);
+  background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-primaria));
 }
 
+/* ===============================
+         RESULTADO
+================================ */
 #resultado {
   margin-top: 1.5rem;
   font-size: 1.3rem;
-  font-weight: bold;
   text-align: center;
   padding: 1rem;
   border-radius: var(--radius);
 }
 
+.imc-baixo { color: var(--imc-baixo); }
+.imc-normal { color: var(--imc-normal); }
+.imc-sobrepeso { color: var(--imc-sobrepeso); }
+.imc-obesidade { color: var(--imc-obesidade); }
+
 .erro-animacao {
-  color: #fff;
-  background-color: var(--imc-obesidade);
-  animation: vibrar 0.4s ease-in-out;
+  animation: vibrar 0.4s ease;
+  background: var(--imc-obesidade);
+  color: white;
 }
 
-@keyframes vibrar {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
-
+/* ===============================
+         SEÇÕES
+================================ */
 section {
   margin-top: 2rem;
 }
 
 section h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: var(--cor-primaria);
-  font-size: 1.3rem;
   border-bottom: 2px solid var(--borda);
   padding-bottom: 0.4rem;
 }
 
+/* ===============================
+         TABELAS
+================================ */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 th, td {
   padding: 0.75rem 1rem;
-  text-align: left;
   border-bottom: 1px solid var(--borda);
-  font-size: 0.95rem;
+  text-align: left;
 }
 
 th {
@@ -175,8 +224,11 @@ th {
   color: white;
 }
 
+/* ===============================
+         LEMBRETES
+================================ */
 #lista-lembretes li {
-  background: #eef2f7;
+  background: rgba(255,255,255,0.7);
   margin: 0.5rem 0;
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius);
@@ -185,37 +237,9 @@ th {
   align-items: center;
 }
 
-.imc-baixo { color: var(--imc-baixo); }
-.imc-normal { color: var(--imc-normal); }
-.imc-sobrepeso { color: var(--imc-sobrepeso); }
-.imc-obesidade { color: var(--imc-obesidade); }
-
-footer {
-  text-align: center;
-  margin-top: 2rem;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #888;
-}
-
-progress {
-  width: 100%;
-  height: 20px;
-  margin-top: 0.5rem;
-  border-radius: var(--radius);
-  appearance: none;
-}
-
-progress::-webkit-progress-bar {
-  background-color: #ddd;
-  border-radius: var(--radius);
-}
-
-progress::-webkit-progress-value {
-  background-color: var(--cor-secundaria);
-  border-radius: var(--radius);
-}
-
+/* ===============================
+         TOAST
+================================ */
 #toast-container {
   position: fixed;
   bottom: 20px;
@@ -224,27 +248,24 @@ progress::-webkit-progress-value {
 }
 
 .toast {
-  background-color: var(--cor-primaria);
+  background: var(--cor-primaria);
   color: white;
-  padding: 1rem 1.5rem;
+  padding: 0.9rem 1.4rem;
   border-radius: var(--radius);
   margin-top: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  animation: fadeIn 0.4s ease;
+  box-shadow: 0 4px 12px var(--sombra);
+  animation: fadeInUp 0.4s ease;
 }
 
 .toast.erro {
-  background-color: #dc3545;
+  background: var(--imc-obesidade);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* ===============================
+         POMODORO
+================================ */
 .pomodoro-section {
   text-align: center;
-  margin-top: 2rem;
 }
 
 #pomodoro-tempo {
@@ -253,15 +274,9 @@ progress::-webkit-progress-value {
   margin: 0.5rem 0;
 }
 
-.estatisticas-section ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.estatisticas-section li {
-  padding: 0.3rem 0;
-}
-
+/* ===============================
+         CLIMA
+================================ */
 .clima-section {
   background: #e9f3ff;
   padding: 1rem;
@@ -269,22 +284,29 @@ progress::-webkit-progress-value {
   margin-top: 1rem;
 }
 
+/* ===============================
+         FOOTER
+================================ */
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ===============================
+         RESPONSIVO
+================================ */
 @media (max-width: 768px) {
   .container {
     padding: 1.5rem;
   }
-
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
-
   button {
     font-size: 0.95rem;
-    padding: 0.7rem;
-  }
-
-  #pomodoro-tempo {
-    font-size: 1.8rem;
   }
 }
 
@@ -292,16 +314,10 @@ progress::-webkit-progress-value {
   .container {
     padding: 1rem;
   }
-
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
-
   button {
     font-size: 0.9rem;
-  }
-
-  #pomodoro-tempo {
-    font-size: 1.6rem;
   }
 }
