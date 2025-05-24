@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0072ce">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
 
-<div id="splash">Carregando...</div>
+<body>
+<div id="splash">🚀 Carregando...</div>
 
 <div class="container">
-  <!-- Cabeçalho com status -->
+  <!-- Cabeçalho -->
   <header>
     <h1 data-i18n="titulo">Calculadora de IMC</h1>
     <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
@@ -42,11 +43,11 @@
       </select>
     </div>
 
-    <button id="toggle-tema">🌗 Mudar Tema</button>
+    <button id="toggle-tema">🌗 Alternar Tema</button>
   </header>
 
-  <!-- Perfil -->
-  <section class="perfil-usuario">
+  <!-- Perfil do Usuário -->
+  <section>
     <h2 data-i18n="perfil">Perfil do Usuário</h2>
     <div class="input-group">
       <label for="nome" data-i18n="nome">Nome:</label>
@@ -90,13 +91,13 @@
   <div id="resultado" class="resultado" aria-live="polite"></div>
 
   <!-- Recomendações -->
-  <section class="recomendacoes">
+  <section>
     <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
     <div id="dieta"></div>
     <div id="exercicio"></div>
   </section>
 
-  <!-- Gráfico -->
+  <!-- Gráfico de IMC -->
   <section>
     <h2 data-i18n="grafico">Gráfico de IMC</h2>
     <canvas id="graficoIMC" height="200"></canvas>
@@ -148,7 +149,7 @@
   </section>
 
   <!-- Estatísticas -->
-  <section class="estatisticas-section">
+  <section>
     <h2>📊 Estatísticas</h2>
     <ul>
       <li id="stat-calculos">Cálculos realizados: 0</li>
@@ -157,7 +158,7 @@
   </section>
 
   <!-- Pomodoro -->
-  <section class="pomodoro-section">
+  <section>
     <h2>⏱️ Pomodoro</h2>
     <div id="pomodoro-tempo">25:00</div>
     <button onclick="iniciarPomodoro()">▶️ Iniciar</button>
@@ -172,7 +173,7 @@
     <input type="file" accept=".json" onchange="restaurarBackup(this.files[0])">
   </section>
 
-  <!-- Toast Container -->
+  <!-- Toast -->
   <div id="toast-container"></div>
 
   <!-- Rodapé -->
@@ -181,7 +182,15 @@
   </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('✅ Service Worker registrado!'))
+      .catch(err => console.error('❌ Erro no Service Worker:', err));
+  }
+</script>
+
 <script src="scripts.js"></script>
 
 </body>
