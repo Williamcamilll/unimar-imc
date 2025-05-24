@@ -1,6 +1,6 @@
-/* ==============================
-   VARIÁVEIS GLOBAIS E TEMA
-============================== */
+/* =============================
+      VARIÁVEIS E TEMA
+============================= */
 :root {
   --cor-primaria: #0072ce;
   --cor-secundaria: #00b4d8;
@@ -25,18 +25,15 @@
   --sombra: rgba(0, 0, 0, 0.6);
 }
 
-/* ==============================
-   RESET GERAL
-============================== */
+/* =============================
+            RESET
+============================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ==============================
-   BASE
-============================== */
 body {
   font-family: "Segoe UI", sans-serif;
   background: var(--cor-fundo);
@@ -48,11 +45,14 @@ body {
   padding: 1.5rem;
 }
 
+/* =============================
+         CONTAINER
+============================= */
 .container {
   width: 100%;
   max-width: 1200px;
   background: var(--cor-card);
-  backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
   border-radius: var(--radius);
   border: 1px solid var(--borda);
   box-shadow: 0 8px 24px var(--sombra);
@@ -60,26 +60,11 @@ body {
   animation: fadeInUp 0.6s ease;
 }
 
-/* ==============================
-   SPLASH SCREEN
-============================== */
-#splash {
-  position: fixed;
-  inset: 0;
-  background: var(--cor-primaria);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  z-index: 9999;
-}
-
-/* ==============================
-   TOPO
-============================== */
+/* =============================
+          CABEÇALHO
+============================= */
 h1 {
-  font-size: 2.4rem;
+  font-size: 2.5rem;
   background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -101,9 +86,9 @@ h1 {
   gap: 0.5rem;
 }
 
-/* ==============================
-   INPUTS E BOTÕES
-============================== */
+/* =============================
+        FORMULÁRIOS E INPUTS
+============================= */
 .input-group {
   margin-bottom: 1rem;
   display: flex;
@@ -149,9 +134,9 @@ button:hover {
   background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-primaria));
 }
 
-/* ==============================
-   RESULTADO
-============================== */
+/* =============================
+        RESULTADO E ESTADO
+============================= */
 #resultado {
   margin-top: 1.5rem;
   font-size: 1.3rem;
@@ -171,9 +156,9 @@ button:hover {
   animation: vibrar 0.4s ease;
 }
 
-/* ==============================
-   SEÇÕES E TABELAS
-============================== */
+/* =============================
+       TABELAS E SEÇÕES
+============================= */
 section {
   margin-top: 2rem;
 }
@@ -202,9 +187,9 @@ th {
   color: white;
 }
 
-/* ==============================
-   LEMBRETES
-============================== */
+/* =============================
+        LEMBRETES
+============================= */
 #lista-lembretes li {
   background: rgba(255, 255, 255, 0.7);
   margin: 0.5rem 0;
@@ -215,9 +200,9 @@ th {
   align-items: center;
 }
 
-/* ==============================
-   TOAST
-============================== */
+/* =============================
+         TOAST E NOTIFICAÇÕES
+============================= */
 #toast-container {
   position: fixed;
   bottom: 20px;
@@ -239,9 +224,9 @@ th {
   background: var(--imc-obesidade);
 }
 
-/* ==============================
-   POMODORO
-============================== */
+/* =============================
+         POMODORO
+============================= */
 .pomodoro-section {
   text-align: center;
 }
@@ -252,19 +237,9 @@ th {
   margin: 0.5rem 0;
 }
 
-/* ==============================
-   CLIMA
-============================== */
-.clima-section {
-  background: rgba(0, 114, 206, 0.1);
-  padding: 1rem;
-  border-radius: var(--radius);
-  margin-top: 1rem;
-}
-
-/* ==============================
-   FOOTER
-============================== */
+/* =============================
+         FOOTER
+============================= */
 footer {
   text-align: center;
   margin-top: 2rem;
@@ -273,9 +248,9 @@ footer {
   color: #888;
 }
 
-/* ==============================
-   ANIMAÇÕES
-============================== */
+/* =============================
+       ANIMAÇÕES
+============================= */
 @keyframes fadeInUp {
   from {opacity: 0; transform: translateY(20px);}
   to {opacity: 1; transform: translateY(0);}
@@ -288,54 +263,31 @@ footer {
   75% { transform: translateX(-3px); }
 }
 
-/* ==============================
-   RESPONSIVIDADE AVANÇADA
-============================== */
+/* =============================
+     RESPONSIVIDADE PREMIUM
+============================= */
 @media (max-width: 1024px) {
-  .container {
-    padding: 1.5rem;
-  }
+  .container { padding: 1.5rem; }
 }
 
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-  .container {
-    padding: 1.2rem;
-  }
-  button {
-    font-size: 0.95rem;
-  }
+  h1 { font-size: 2rem; }
+  .container { padding: 1.2rem; }
+  button { font-size: 0.95rem; }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 1.7rem;
-  }
-  .container {
-    padding: 1rem;
-  }
-  button {
-    font-size: 0.9rem;
-  }
-  .top-bar {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  h1 { font-size: 1.7rem; }
+  .container { padding: 1rem; }
+  button { font-size: 0.9rem; }
+  .top-bar { flex-direction: column; gap: 0.5rem; }
 }
 
 @media (min-width: 1440px) {
-  .container {
-    max-width: 1300px;
-  }
+  .container { max-width: 1300px; }
 }
 
 @media (min-width: 2560px) {
-  body {
-    font-size: 1.2rem;
-  }
-  h1 {
-    font-size: 3rem;
-  }
+  body { font-size: 1.2rem; }
+  h1 { font-size: 3rem; }
 }
