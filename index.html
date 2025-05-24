@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora de IMC | Unimar Saúde</title>
+  <meta name="description" content="Calculadora de IMC com gráfico, histórico, recomendações, clima, pomodoro e backup.">
+  <meta name="author" content="William Camilo">
+  <meta name="theme-color" content="#0072ce">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <title>Calculadora de IMC | Unimar Saúde</title>
 </head>
 <body>
 
@@ -41,6 +45,7 @@
       </div>
     </header>
 
+    <!-- PERFIL -->
     <section class="perfil-usuario">
       <h2 data-i18n="perfil">Perfil do Usuário 👤</h2>
       <div class="input-group">
@@ -63,6 +68,7 @@
       <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
     </section>
 
+    <!-- CÁLCULO IMC -->
     <form id="form-imc">
       <h2>⚖️ <span data-i18n="calcular">Calcular IMC</span></h2>
       <div class="input-group">
@@ -82,13 +88,15 @@
 
     <div id="resultado" class="resultado" aria-live="polite"></div>
 
+    <!-- RECOMENDAÇÕES -->
     <section class="recomendacoes">
       <h2 data-i18n="recomendacoes">🍎 Recomendações Personalizadas</h2>
       <div id="dieta"></div>
       <div id="exercicio"></div>
-      <p><a href="https://www.handtalk.me/br/" target="_blank">Tradução em Libras</a></p>
+      <p><a href="https://www.handtalk.me/br/" target="_blank" rel="noopener">Tradução em Libras</a></p>
     </section>
 
+    <!-- TABELA DE IMC -->
     <section class="faixa-imc">
       <h2 data-i18n="faixas">📊 Faixas de IMC</h2>
       <table>
@@ -99,14 +107,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>Menor que 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
+          <tr><td>&lt; 18.5</td><td data-i18n="abaixo">Abaixo do peso</td></tr>
           <tr><td>18.5 - 24.9</td><td data-i18n="normal">Peso normal</td></tr>
           <tr><td>25.0 - 29.9</td><td data-i18n="sobrepeso">Sobrepeso</td></tr>
-          <tr><td>30.0 ou mais</td><td data-i18n="obesidade">Obesidade</td></tr>
+          <tr><td>&gt;= 30.0</td><td data-i18n="obesidade">Obesidade</td></tr>
         </tbody>
       </table>
     </section>
 
+    <!-- HISTÓRICO -->
     <section class="historico-section">
       <h2 data-i18n="historico">🗂️ Histórico de Cálculos</h2>
       <table id="historico">
@@ -123,6 +132,7 @@
       <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
     </section>
 
+    <!-- LEMBRETES -->
     <section class="lembretes-section">
       <h2 data-i18n="lembretes">📝 Lembretes</h2>
       <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
@@ -131,6 +141,7 @@
       <ul id="lista-lembretes"></ul>
     </section>
 
+    <!-- ESTATÍSTICAS -->
     <section class="estatisticas-section">
       <h2>📈 Estatísticas</h2>
       <ul>
@@ -139,6 +150,7 @@
       </ul>
     </section>
 
+    <!-- POMODORO -->
     <section class="pomodoro-section">
       <h2>⏱️ Pomodoro</h2>
       <div id="pomodoro-tempo">25:00</div>
@@ -147,28 +159,35 @@
       <button onclick="resetarPomodoro()">Resetar</button>
     </section>
 
+    <!-- CLIMA -->
     <section class="clima-section">
       <h2>🌤️ Clima</h2>
       <div id="clima-info">Buscando clima...</div>
     </section>
 
+    <!-- BACKUP -->
     <section class="backup-section">
       <h2>💾 Backup & Restauração</h2>
       <button onclick="fazerBackup()">Fazer Backup</button>
       <input type="file" id="importarBackup" accept=".json" onchange="restaurarBackup(this.files[0])">
     </section>
 
+    <!-- GRÁFICO -->
     <section class="grafico-section">
       <h2>📊 Gráfico de IMC</h2>
       <canvas id="graficoIMC" width="400" height="200"></canvas>
     </section>
 
+    <!-- FOOTER -->
     <footer>
       <p>Desenvolvido por William Camilo • Unimar Saúde • 2025</p>
     </footer>
   </div>
 
+  <!-- TOAST -->
   <div id="toast-container"></div>
+
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="scripts.js"></script>
 </body>
