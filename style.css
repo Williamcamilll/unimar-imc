@@ -1,17 +1,17 @@
 /* =============================
-          🎨 VARIÁVEIS E TEMAS
+        🎨 VARIÁVEIS E TEMAS
 ============================= */
 :root {
   --cor-primaria: #0072ce;
   --cor-secundaria: #00b4d8;
   --cor-destaque: #00dfd8;
-  --cor-fundo: #f4f7fb;
-  --cor-card: rgba(255, 255, 255, 0.75);
+  --cor-fundo: #f0f4f8;
+  --cor-card: rgba(255, 255, 255, 0.6);
   --cor-texto: #1f2937;
   --cor-muted: #6b7280;
   --borda: rgba(0, 0, 0, 0.08);
-  --sombra: rgba(0, 0, 0, 0.1);
-  --radius: 20px;
+  --sombra: rgba(0, 0, 0, 0.12);
+  --radius: 22px;
 
   --imc-baixo: #ffc107;
   --imc-normal: #28a745;
@@ -20,12 +20,12 @@
 }
 
 [data-tema="dark"] {
-  --cor-fundo: #121212;
-  --cor-card: rgba(30, 30, 30, 0.85);
-  --cor-texto: #f3f4f6;
-  --cor-muted: #9ca3af;
-  --borda: rgba(255, 255, 255, 0.08);
-  --sombra: rgba(0, 0, 0, 0.7);
+  --cor-fundo: #0e0e0e;
+  --cor-card: rgba(22, 22, 22, 0.7);
+  --cor-texto: #f9f9f9;
+  --cor-muted: #a3a3a3;
+  --borda: rgba(255, 255, 255, 0.1);
+  --sombra: rgba(0, 0, 0, 0.8);
 }
 
 /* =============================
@@ -46,6 +46,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  line-height: 1.6;
 }
 
 /* =============================
@@ -55,10 +56,11 @@ body {
   width: 100%;
   max-width: 1280px;
   background: var(--cor-card);
-  backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
   border-radius: var(--radius);
   border: 1px solid var(--borda);
-  box-shadow: 0 8px 32px var(--sombra);
+  box-shadow: 0 12px 35px var(--sombra);
   padding: 2rem;
   animation: fadeInUp 0.6s ease;
   transition: all 0.4s ease;
@@ -107,13 +109,13 @@ h1 {
 
 .input-group input,
 .input-group select {
-  padding: 0.7rem;
+  padding: 0.75rem;
   border-radius: var(--radius);
   border: 1px solid var(--borda);
-  background-color: rgba(255, 255, 255, 0.65);
+  background-color: rgba(255, 255, 255, 0.7);
   color: var(--cor-texto);
   font-size: 1rem;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
 .input-group input:focus,
@@ -127,7 +129,7 @@ h1 {
          🔘 BOTÕES
 ============================= */
 button {
-  padding: 0.8rem 1.4rem;
+  padding: 0.9rem 1.6rem;
   background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
   color: white;
   border: none;
@@ -135,12 +137,16 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-  transform: translateY(-2px) scale(1.03);
+  transform: translateY(-4px) scale(1.05);
   background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-primaria));
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 /* =============================
@@ -152,7 +158,7 @@ button:hover {
   text-align: center;
   padding: 1rem;
   border-radius: var(--radius);
-  background-color: rgba(0, 178, 255, 0.05);
+  background-color: rgba(0, 178, 255, 0.06);
   border: 1px dashed var(--cor-secundaria);
 }
 
@@ -206,7 +212,7 @@ tr:hover {
        📝 LEMBRETES
 ============================= */
 #lista-lembretes li {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   margin: 0.5rem 0;
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius);
@@ -248,7 +254,7 @@ tr:hover {
 }
 
 #pomodoro-tempo {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   margin: 0.5rem 0;
 }
@@ -280,7 +286,7 @@ footer {
 }
 
 /* =============================
-     📱 RESPONSIVIDADE PRO
+     📱 RESPONSIVIDADE TOTAL
 ============================= */
 @media (max-width: 1024px) {
   .container { padding: 1.5rem; }
@@ -307,4 +313,3 @@ footer {
   body { font-size: 1.2rem; }
   h1 { font-size: 3rem; }
 }
-
