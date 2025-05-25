@@ -1,15 +1,17 @@
 /* =============================
-      VARIÁVEIS E TEMAS
+          🎨 VARIÁVEIS E TEMAS
 ============================= */
 :root {
   --cor-primaria: #0072ce;
   --cor-secundaria: #00b4d8;
-  --cor-fundo: #f4f4f4;
+  --cor-destaque: #00dfd8;
+  --cor-fundo: #f4f7fb;
   --cor-card: rgba(255, 255, 255, 0.75);
-  --cor-texto: #1a1a1a;
-  --borda: rgba(0, 0, 0, 0.1);
-  --sombra: rgba(0, 0, 0, 0.15);
-  --radius: 16px;
+  --cor-texto: #1f2937;
+  --cor-muted: #6b7280;
+  --borda: rgba(0, 0, 0, 0.08);
+  --sombra: rgba(0, 0, 0, 0.1);
+  --radius: 20px;
 
   --imc-baixo: #ffc107;
   --imc-normal: #28a745;
@@ -20,13 +22,14 @@
 [data-tema="dark"] {
   --cor-fundo: #121212;
   --cor-card: rgba(30, 30, 30, 0.85);
-  --cor-texto: #f0f0f0;
-  --borda: rgba(255, 255, 255, 0.1);
-  --sombra: rgba(0, 0, 0, 0.6);
+  --cor-texto: #f3f4f6;
+  --cor-muted: #9ca3af;
+  --borda: rgba(255, 255, 255, 0.08);
+  --sombra: rgba(0, 0, 0, 0.7);
 }
 
 /* =============================
-            RESET
+            🔄 RESET
 ============================= */
 * {
   margin: 0;
@@ -35,45 +38,47 @@
 }
 
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background: var(--cor-fundo);
   color: var(--cor-texto);
   min-height: 100vh;
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 1.5rem;
+  align-items: flex-start;
 }
 
 /* =============================
-         CONTAINER
+          📦 CONTAINER
 ============================= */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1280px;
   background: var(--cor-card);
-  backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
   border-radius: var(--radius);
   border: 1px solid var(--borda);
-  box-shadow: 0 8px 24px var(--sombra);
+  box-shadow: 0 8px 32px var(--sombra);
   padding: 2rem;
   animation: fadeInUp 0.6s ease;
+  transition: all 0.4s ease;
 }
 
 /* =============================
-          CABEÇALHO
+          🚩 CABEÇALHO
 ============================= */
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
   text-align: center;
-  color: var(--cor-secundaria);
+  color: var(--cor-muted);
   margin-bottom: 2rem;
 }
 
@@ -81,13 +86,13 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 /* =============================
-      FORMULÁRIOS E INPUTS
+      📝 FORMULÁRIOS
 ============================= */
 .input-group {
   margin-bottom: 1rem;
@@ -102,40 +107,44 @@ h1 {
 
 .input-group input,
 .input-group select {
-  padding: 0.6rem;
+  padding: 0.7rem;
   border-radius: var(--radius);
   border: 1px solid var(--borda);
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.65);
   color: var(--cor-texto);
   font-size: 1rem;
+  transition: all 0.3s;
 }
 
 .input-group input:focus,
 .input-group select:focus {
   border-color: var(--cor-secundaria);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 178, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(0, 178, 255, 0.25);
 }
 
+/* =============================
+         🔘 BOTÕES
+============================= */
 button {
-  padding: 0.75rem 1.2rem;
+  padding: 0.8rem 1.4rem;
   background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
   color: white;
   border: none;
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s, background 0.3s;
-  box-shadow: 0 4px 14px var(--sombra);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 button:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px) scale(1.03);
   background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-primaria));
 }
 
 /* =============================
-        RESULTADO E ESTADO
+        📊 RESULTADO
 ============================= */
 #resultado {
   margin-top: 1.5rem;
@@ -143,6 +152,8 @@ button:hover {
   text-align: center;
   padding: 1rem;
   border-radius: var(--radius);
+  background-color: rgba(0, 178, 255, 0.05);
+  border: 1px dashed var(--cor-secundaria);
 }
 
 .imc-baixo { color: var(--imc-baixo); }
@@ -157,7 +168,7 @@ button:hover {
 }
 
 /* =============================
-       TABELAS E SEÇÕES
+       📑 TABELAS
 ============================= */
 section {
   margin-top: 2rem;
@@ -187,8 +198,12 @@ th {
   color: white;
 }
 
+tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 /* =============================
-        LEMBRETES
+       📝 LEMBRETES
 ============================= */
 #lista-lembretes li {
   background: rgba(255, 255, 255, 0.7);
@@ -198,10 +213,11 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 8px var(--sombra);
 }
 
 /* =============================
-         TOAST E NOTIFICAÇÕES
+       🔔 TOAST
 ============================= */
 #toast-container {
   position: fixed;
@@ -216,7 +232,7 @@ th {
   padding: 0.9rem 1.4rem;
   border-radius: var(--radius);
   margin-top: 10px;
-  box-shadow: 0 4px 12px var(--sombra);
+  box-shadow: 0 4px 14px var(--sombra);
   animation: fadeInUp 0.4s ease;
 }
 
@@ -225,7 +241,7 @@ th {
 }
 
 /* =============================
-         POMODORO
+       ⏳ POMODORO
 ============================= */
 .pomodoro-section {
   text-align: center;
@@ -238,18 +254,18 @@ th {
 }
 
 /* =============================
-         FOOTER
+        🦶 FOOTER
 ============================= */
 footer {
   text-align: center;
   margin-top: 2rem;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #888;
+  color: var(--cor-muted);
 }
 
 /* =============================
-       ANIMAÇÕES
+        ✨ ANIMAÇÕES
 ============================= */
 @keyframes fadeInUp {
   from {opacity: 0; transform: translateY(20px);}
@@ -264,30 +280,31 @@ footer {
 }
 
 /* =============================
-     RESPONSIVIDADE PREMIUM
+     📱 RESPONSIVIDADE PRO
 ============================= */
 @media (max-width: 1024px) {
   .container { padding: 1.5rem; }
 }
 
 @media (max-width: 768px) {
-  h1 { font-size: 2rem; }
+  h1 { font-size: 2.2rem; }
   .container { padding: 1.2rem; }
   button { font-size: 0.95rem; }
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: 1.7rem; }
+  h1 { font-size: 1.8rem; }
   .container { padding: 1rem; }
   button { font-size: 0.9rem; }
   .top-bar { flex-direction: column; gap: 0.5rem; }
 }
 
 @media (min-width: 1440px) {
-  .container { max-width: 1300px; }
+  .container { max-width: 1400px; }
 }
 
 @media (min-width: 2560px) {
   body { font-size: 1.2rem; }
   h1 { font-size: 3rem; }
 }
+
