@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#0072ce">
 
   <!-- Favicon -->
- <link rel="icon" type="image/png" href="img.png">
+  <link rel="icon" type="image/png" href="assets/img.png">
 
   <!-- ChartJS -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,45 +17,51 @@
 
 <body>
 
+<!-- Splash Screen -->
 <div id="splash">🚀 Carregando...</div>
 
+<!-- Container -->
 <div class="container">
-  <!-- Cabeçalho com logo -->
+  
+  <!-- Cabeçalho -->
   <header>
     <div class="logo-container">
+      <img src="assets/img.png" alt="Logo" width="60">
     </div>
     <h1 data-i18n="titulo">Calculadora de IMC</h1>
-    <p class="subtitle" data-i18n="subtitulo">Projeto Engenharia de Software - ADS | Unimar</p>
+    <p class="subtitle" data-i18n="subtitulo">Engenharia de Software - ADS | Unimar</p>
 
     <div class="top-bar">
       <div id="horario-brasilia">🕒 Brasília</div>
       <div id="clima-info">☁️ Clima</div>
     </div>
 
-    <div class="input-group">
-      <label for="idioma" data-i18n="idioma">Idioma:</label>
-      <select id="idioma">
-        <option value="pt">Português</option>
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="zh">中文</option>
-      </select>
-    </div>
+    <div class="top-options">
+      <div class="input-group">
+        <label for="idioma" data-i18n="idioma">Idioma:</label>
+        <select id="idioma">
+          <option value="pt">Português</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
 
-    <div class="input-group">
-      <label for="unidade" data-i18n="unidade">Unidade:</label>
-      <select id="unidade">
-        <option value="metric">Métrico (kg/cm)</option>
-        <option value="imperial">Imperial (lb/in)</option>
-      </select>
-    </div>
+      <div class="input-group">
+        <label for="unidade" data-i18n="unidade">Unidade:</label>
+        <select id="unidade">
+          <option value="metric">Métrico (kg/cm)</option>
+          <option value="imperial">Imperial (lb/in)</option>
+        </select>
+      </div>
 
-    <button id="toggle-tema">🌗 Alternar Tema</button>
+      <button id="toggle-tema">🌗 Alternar Tema</button>
+    </div>
   </header>
 
-  <!-- Perfil do Usuário -->
+  <!-- Seção Perfil -->
   <section>
-    <h2 data-i18n="perfil">Perfil do Usuário</h2>
+    <h2 data-i18n="perfil">👤 Perfil do Usuário</h2>
     <div class="input-group">
       <label for="nome" data-i18n="nome">Nome:</label>
       <input type="text" id="nome">
@@ -73,12 +79,12 @@
         <option value="outro">Outro</option>
       </select>
     </div>
-    <button id="salvar-perfil" data-i18n="salvarPerfil">Salvar Perfil</button>
+    <button id="salvar-perfil" data-i18n="salvarPerfil">💾 Salvar Perfil</button>
   </section>
 
-  <!-- Cálculo de IMC -->
+  <!-- Seção IMC -->
   <form id="form-imc">
-    <h2 data-i18n="calcular">Calcular IMC</h2>
+    <h2 data-i18n="calcular">⚖️ Calcular IMC</h2>
     <div class="input-group">
       <label for="peso" data-i18n="peso">Peso:</label>
       <input type="number" id="peso" required>
@@ -91,7 +97,7 @@
       <label for="meta-peso" data-i18n="meta">Meta de Peso:</label>
       <input type="number" id="meta-peso">
     </div>
-    <button type="submit" data-i18n="calcular">Calcular IMC</button>
+    <button type="submit" data-i18n="calcular">📊 Calcular IMC</button>
   </form>
 
   <!-- Resultado -->
@@ -99,13 +105,14 @@
 
   <!-- Recomendações -->
   <section>
-    <h2 data-i18n="recomendacoes">Recomendações Personalizadas</h2>
+    <h2 data-i18n="recomendacoes">🥗 Recomendações Personalizadas</h2>
     <div id="dieta"></div>
     <div id="exercicio"></div>
   </section>
+
   <!-- Faixas de IMC -->
   <section>
-    <h2 data-i18n="faixas">Faixas de IMC</h2>
+    <h2 data-i18n="faixas">📏 Faixas de IMC</h2>
     <table>
       <thead>
         <tr>
@@ -124,7 +131,7 @@
 
   <!-- Histórico -->
   <section>
-    <h2 data-i18n="historico">Histórico de Cálculos</h2>
+    <h2 data-i18n="historico">🗂️ Histórico de Cálculos</h2>
     <table id="historico">
       <thead>
         <tr>
@@ -136,15 +143,15 @@
       </thead>
       <tbody></tbody>
     </table>
-    <button id="limpar-historico" data-i18n="limpar">Limpar Histórico</button>
+    <button id="limpar-historico" data-i18n="limpar">🗑️ Limpar Histórico</button>
   </section>
 
   <!-- Lembretes -->
   <section>
-    <h2 data-i18n="lembretes">Lembretes</h2>
+    <h2 data-i18n="lembretes">📅 Lembretes</h2>
     <label for="lembrete" data-i18n="escreva">Escreva um lembrete:</label>
     <input type="text" id="lembrete">
-    <button id="salvar-lembrete" data-i18n="salvarLembrete">Salvar Lembrete</button>
+    <button id="salvar-lembrete" data-i18n="salvarLembrete">💾 Salvar Lembrete</button>
     <ul id="lista-lembretes"></ul>
   </section>
 
@@ -159,11 +166,13 @@
 
   <!-- Pomodoro -->
   <section>
-    <h2>⏱️ Pomodoro</h2>
+    <h2>⏳ Pomodoro</h2>
     <div id="pomodoro-tempo">25:00</div>
-    <button onclick="iniciarPomodoro()">▶️ Iniciar</button>
-    <button onclick="pausarPomodoro()">⏸️ Pausar</button>
-    <button onclick="resetarPomodoro()">🔄 Resetar</button>
+    <div class="pomodoro-buttons">
+      <button onclick="iniciarPomodoro()">▶️ Iniciar</button>
+      <button onclick="pausarPomodoro()">⏸️ Pausar</button>
+      <button onclick="resetarPomodoro()">🔄 Resetar</button>
+    </div>
   </section>
 
   <!-- Backup -->
@@ -178,7 +187,7 @@
 
   <!-- Rodapé -->
   <footer>
-    <p>🚀 projeto engenharia de Software | Unimar ADS</p>
+    <p>🚀 Projeto Engenharia de Software | ADS Unimar — 2025</p>
   </footer>
 </div>
 
@@ -195,4 +204,3 @@
 
 </body>
 </html>
-
